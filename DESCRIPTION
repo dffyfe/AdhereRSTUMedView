@@ -1,0 +1,33 @@
+Package: AdhereRSTUMedView
+Type: Package
+Title: AdhereRFork with single bar visualisation
+Version: 0.1.1
+Author: David Fyfe (based on the work of Dan Dediu, Alexandra Lima & Sam Allemann)
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    lubridate (>= 1.5),
+    parallel (>= 3.0),
+    data.table (>= 1.9),
+    rsvg (>= 1.3),
+    jpeg (>= 0.1),
+    png (>= 0.1),
+    webp (>= 1.0),
+    methods,
+    htmltools
+Depends: R (>= 3.0),
+         lubridate (>= 1.5),
+         parallel (>= 3.0),
+         data.table (>= 1.9),
+         rsvg (>= 1.3),
+         jpeg (>= 0.1),
+         png (>= 0.1),
+         webp (>= 1.0),
+         methods,
+         htmltools
+Suggests: rmarkdown (>= 1.1), knitr (>= 1.20), R.rsp (>= 0.40), AdhereRViz (>= 0.2), base64(>= 2.0)
+RoxygenNote: 7.2.3

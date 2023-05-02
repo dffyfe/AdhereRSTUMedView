@@ -1,0 +1,1214 @@
+<!DOCTYPE "html">
+<!-- Change version number here when RStudio refuses to update 1.0-->
+<!-- The HTML container for a semi-interactive SVG adherecen plot -->
+<!-- while it can be freely changed and adapted, there are certain elements that are required: -->
+<!-- - the placeholder of the main JavaScript implementing the access API -->
+<!-- - the placeholder of the main CSS -->
+<!-- - the placeholder of the SVG plot -->
+<!-- please note that these must be present *literally* (including the "PATH-TO-JS", "PATH-TO-CSS" and "PATH-TO-IMAGE" and the id "adherence_plot") in the HTML template! -->
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>AdhereR plot</title>
+
+    <!-- The SVG-related JavaScript place-holder: make sure the line below appears *literally* as such in the HTML template! -->
+    <script type="text/javascript" src="PATH-TO-JS">
+    //<!--Med Groups 2 placeholder-->
+    //<!--Med Groups 3 placeholder-->
+    //<!--Med Groups 4 placeholder-->
+    //<!--Med Groups 5 placeholder-->
+    //<!--Med Groups 6 placeholder-->
+    //<!--Med Groups 7 placeholder-->
+    //<!--Med Groups 8 placeholder-->
+    //<!--Med Groups 9 placeholder-->
+    //<!--Med Groups 10 placeholder-->
+    //<!--Plot Size 1 placeholder-->
+    //<!--Plot Size 2 placeholder-->
+    //<!--Plot Size 3 placeholder-->
+    //<!--Plot Size 4 placeholder-->
+    //<!--Plot Size 5 placeholder-->
+    //<!--Plot Size 6 placeholder-->
+    //<!--Plot Size 7 placeholder-->
+    //<!--Plot Size 8 placeholder-->
+    //<!--Plot Size 9 placeholder-->
+    //<!--Plot Size 10 placeholder-->
+    </script>
+
+    
+    <!-- The SVG-related CSS place-holder: make sure this appears *literally* as such in the HTML template! -->
+    <link rel="stylesheet" href="PATH-TO-CSS">
+
+  </head>
+
+  <body class="active">
+    <div id="tooltip" display="none" style="position: absolute; display: none; z-index: 2;"></div>
+    <div class="wrapper">
+        <div class="sidebar">
+          <!--Alternative image placeholder-->
+            <img id="adherer_logo" style="width:140px; height:60px;" src="data:image/png;base64,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">
+            <h3>STU Visualisation</h3>
+            <ul id="sidebar_list">
+                <li><a href="#" class="navpage navpage_home">
+                    <span>Home</span>
+                </a></li>
+                <li><a href="#" class="navpage navpage_help">
+                    <span>Help</span>
+                </a></li>
+<!--                 <li><a href="#" class="navpage">
+                    <span>All Drugs</span>
+                </a></li>
+                <li><a href="#" class="navpage">
+                    <span>Drug Group 1</span>
+                </a></li>
+                <li><a href="#" class="navpage">
+                    <span>Drug Group 2</span>
+                </a></li> -->
+            </ul>
+        </div>
+        <div class="section">
+            <div class="top_bar">
+                <div class="menu_toggle">
+                    <a href="#"></a> <!--<a href="#"><i class="fas fa-bars"></i></a>-->
+                </div>  
+            </div>
+            <div class="tabcontent-main">
+              <div class="tab-pane index0" id="tab-home"></div>
+              <div class="tab-pane index1" id="tab-help">
+                <div id="svg_help_div" style="position: absolute; margin:5px; width: 50%;">
+                
+                  <div id="helpbox1" class="infobox" style="position: absolute; display: none;">The square is positioned on the day of prescribing.&#10;The length of the marker represents how long the dispensing is likely to last for based on the dose instruction.&#10;Markers with only the square visible have an unmappable or AS DIRECTION/AS REQUIRED type dose instruction.&#10;Hovering over any point of the marker provides additional details.</div>
+                  <div id="helpbox2" class="infobox" style="position: absolute; display: none;">The yellow filled area is the period for which adherence is calculated for.&#10;Any left over medicine (prescribing overlaps) from before this period will also be included.</div>
+                  <div id="helpbox3" class="infobox" style="position: absolute; display: none;">Hover over dotted line to see x-axis date (useful on larger plots).</div>
+                  <div id="helpbox4" class="infobox" style="position: absolute; display: none;">Adherence % calculated using total days prescribing (including any carryover from start of follow-up window divided by total days in observation window) and the total number of gap days in the observation window in brackets.</div>
+                   
+            
+                  <button id="back" style = "width: 40px; height: 40px; position: absolute; z-index: 2; top: 5px; left: 5px;">&#171;</button>
+                  <button id="pauseplay" class="automatic" style = "width: 40px; height: 40px; position: absolute; z-index: 2; top: 5px; left: 50px; font-weight: bold;">||</button>
+                  <button id="forward" style = "width: 40px; height: 40px; position: absolute; z-index: 2; top: 5px; left: 95px;">&#187;</button>
+            
+                    <svg id="help_plot" style="height: auto; z-index: 1;" viewBox="0 0 593.282032302755 196.538461538462"  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            
+                        <!-- This is the self-contained SVG plot. -->
+                        <!-- NOTE: due to compatibility issues with Internet Explorer, we use explicit closing tags. -->
+                        <defs>
+                        <g id="pch0" fill="none" stroke-width="1"> <rect x="-2.500" y="-2.500" width="5.000" height="5.000"></rect> </g>
+                        <g id="pch1" fill="none" stroke-width="1"> <circle cx="0" cy="0" r="2.500"></circle> </g>
+                        <g id="pch2" fill="none" stroke-width="1"> <polyline points="-2.500,2.500 0,-2.500 2.500,2.500 -2.500,2.500"></polyline> </g>
+                        <g id="pch3" fill="none" stroke-width="1"> <line x1="-2.500" y1="0" x2="2.500" y2="0"></line> <line x1="0" y1="-2.500" x2="0" y2="2.500"></line> </g>
+                        <g id="pch4" fill="none" stroke-width="1"> <line x1="-2.500" y1="2.500" x2="2.500" y2="-2.500"></line> <line x1="-2.500" y1="-2.500" x2="2.500" y2="2.500"></line> </g>
+                        <g id="pch5" fill="none" stroke-width="1"> <polyline points="-2.500,0 0,-2.500 2.500,0 0,2.500 -2.500,0"></polyline> </g>
+                        <g id="pch6" fill="none" stroke-width="1"> <polyline points="-2.500,-2.500 0,2.500 2.500,-2.500 -2.500,-2.500"></polyline> </g>
+                        <g id="pch7" fill="none" stroke-width="1"> <use xlink:href="#pch0"></use> <use xlink:href="#pch4"></use> </g>
+                        <g id="pch8" fill="none" stroke-width="1"> <use xlink:href="#pch3"></use> <use xlink:href="#pch4"></use> </g>
+                        <g id="pch9" fill="none" stroke-width="1"> <use xlink:href="#pch3"></use> <use xlink:href="#pch5"></use> </g>
+                        <g id="pch10" fill="none" stroke-width="1"> <use xlink:href="#pch3"></use> <use xlink:href="#pch1"></use> </g>
+                        <g id="pch11" fill="none" stroke-width="1"> <use xlink:href="#pch2"></use> <use xlink:href="#pch6"></use> </g>
+                        <g id="pch12" fill="none" stroke-width="1"> <use xlink:href="#pch0"></use> <use xlink:href="#pch3"></use> </g>
+                        <g id="pch13" fill="none" stroke-width="1"> <use xlink:href="#pch1"></use> <use xlink:href="#pch4"></use> </g>
+                        <g id="pch14" fill="none" stroke-width="1"> <use xlink:href="#pch0"></use> <use xlink:href="#pch2"></use> </g>
+                        <g id="pch15" stroke-width="1"> <rect x="-2.500" y="-2.500" width="5.000" height="5.000"></rect> </g>
+                        <g id="pch16" stroke-width="1"> <circle cx="0" cy="0" r="1.667"></circle> </g>
+                        <g id="pch17" stroke-width="1"> <polyline points="-2.500,2.500 0,-2.500 2.500,2.500 -2.500,2.500"></polyline> </g>
+                        <g id="pch18" stroke-width="1"> <polyline points="-2.500,0 0,-2.500 2.500,0 0,2.500 -2.500,0"></polyline> </g>
+                        <g id="pch19" stroke-width="1"> <circle cx="0" cy="0" r="2.500"></circle> </g>
+                        <g id="pch20" stroke-width="1"> <circle cx="0" cy="0" r="1.250"></circle> </g>
+                        <g id="pch26" fill="none" stroke-width="1"> <polyline points="0,2.500 -2.500,0 0,-2.500 "></polyline> </g>
+                        <g id="pch27" fill="none" stroke-width="1"> <polyline points="0,2.500 2.500,0 0,-2.500 "></polyline> </g>
+                        <g id="pch28" fill="none" stroke-width="1"> <line x1="0" y1="2.500" x2="0" y2="-2.500"></line> </g>
+                        <g id="pch29"><path class="arrow" d="M 0 0 l 7.5 10 h -2.5 v 20 h -10 v -20 h -2.5 Z"></path></g>
+                        
+                        <g id="helpplot1">
+                            
+                            <!-- Clear the whole plotting area -->
+                            <rect class="plotting-area-background" x="0.000" y="0.000" width="593.282" height="196.538" stroke="none" fill="rgb(255,255,255)" ></rect>
+                            
+                            <!-- The alternating band -->
+                            <rect class="alternating-bands-1" x="99.282" y="30.000" width="494.000" height="110.000" fill="rgb(255,255,255)" ></rect>
+                            <!-- The Follow-Up Window (FUW) -->
+                            <rect class="fuw" x="99.282" y="50.000" width="487.333" height="90.000" stroke="rgb(0,255,0)" stroke-width="2" stroke-dasharray="3,3" fill="rgb(255,255,255)" fill-opacity="0" > <title>Follow-Up Window (FUW)</title></rect>
+                            <!-- The Observation Window (OW) -->
+                            <rect class="ow" x="343.282" y="50.000" width="243.333" height="90.000" stroke="none" fill="rgb(255,255,0)" fill-opacity="0.3" > <title>Observation Window (OW)</title></rect>
+                            <!-- The y-axis labels -->
+                            <text class="axis-labels-y" x="89.282" y="80.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 89.282 80.000)" fill="rgb(0,0,0)" > [DRUG NAME]</text>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(235.949 135.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(273.282 135.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="235.949" y1="135.000" x2="273.282" y2="135.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="273.282,135.000 273.282,135.000 273.282,135.000 273.282,125.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(273.282 125.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(273.282 125.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="273.282" y1="125.000" x2="273.282" y2="125.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="273.282,125.000 310.615,125.000 310.615,125.000 310.615,115.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(310.615 115.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(347.949 115.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="310.615" y1="115.000" x2="347.949" y2="115.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="347.949,115.000 347.949,115.000 347.949,115.000 347.949,105.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(347.949 105.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(366.615 105.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="347.949" y1="105.000" x2="366.615" y2="105.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="366.615,105.000 385.282,105.000 385.282,105.000 385.282,95.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(385.282 95.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(385.282 95.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="385.282" y1="95.000" x2="385.282" y2="95.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="385.282,95.000 422.615,95.000 422.615,95.000 422.615,85.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>2</title><use xlink:href="#pch15" transform="translate(422.615 85.000) scale(1)" stroke="rgb(204,102,119)" fill="rgb(204,102,119)" ></use></g>
+                            <g class="event-end-med-class-Graph1-2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>2</title><use xlink:href="#pch16" transform="translate(459.949 85.000) scale(1)" stroke="rgb(204,102,119)" fill="rgb(204,102,119)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-2" x1="422.615" y1="85.000" x2="459.949" y2="85.000" stroke="rgb(204,102,119)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>2</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-2" points="459.949,85.000 459.949,85.000 459.949,85.000 459.949,75.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-2</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(459.949 75.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(497.282 75.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="459.949" y1="75.000" x2="497.282" y2="75.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="497.282,75.000 497.282,75.000 497.282,75.000 497.282,65.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(497.282 65.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(534.615 65.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="497.282" y1="65.000" x2="534.615" y2="65.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="534.615,65.000 534.615,65.000 534.615,65.000 534.615,55.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(534.615 55.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(553.282 55.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="534.615" y1="55.000" x2="553.282" y2="55.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            
+                            <!-- Partial CMAs as stacked bars: -->
+                            <rect class="partial_cma_stacked_rect_bkg" x="343.282" y="36.000" width="243.333" height="8.000" stroke="rgb(179,179,179)" fill="rgb(255,255,255)" ></rect>
+                            <rect class="partial_cma_stacked_rect_estimate" x="343.282" y="36.000" width="154.000" height="8.000" stroke="rgb(77,77,77)" fill="rgb(229,229,229)" ></rect>
+                            <text class="partial_cma_stacked_text_estimate" x="464.949" y="40.000" font-family="Arial" font-size="8" text-anchor="middle" dominant-baseline="central" fill="rgb(0,0,0)" > 63%</text>
+                            <!-- The bounding box -->
+                            <rect class="bounding-box" x="99.282" y="25.000" width="494.000" height="120.000" stroke="rgb(0,0,0)" stroke-width="1" fill="none" ></rect>
+                            <!-- The main title -->
+                            <text class="main-title" x="346.282" y="15.000" font-family="Arial" font-size="15" text-anchor="middle" dominant-baseline="central" fill="rgb(0,0,0)" > 1 </text>
+                            <!-- The y-axis label -->
+                            <text class="axis-name-y" x="10.000" y="98.269" font-family="Arial" font-size="10" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 10.000 98.269)" fill="rgb(0,0,0)" > Section - Drug Name <title>Y axis: patients, events and (possibly) CMA estimates</title></text>
+                            <!-- The x-axis label -->
+                            <text class="axis-name-x" x="346.282" y="186.538" font-family="Arial" font-size="10" text-anchor="middle" dominant-baseline="central" fill="rgb(0,0,0)" > Date <title>X axis: the events ordered in time (from left to right)</title></text>
+                            <text class="axis-labels-x" x="99.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 99.282 155.000)" fill="rgb(0,0,0)" > 2019-06-17</text>
+                            <text class="axis-labels-x" x="139.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 139.282 155.000)" fill="rgb(0,0,0)" > 2019-08-16</text>
+                            <text class="axis-labels-x" x="179.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 179.282 155.000)" fill="rgb(0,0,0)" > 2019-10-15</text>
+                            <text class="axis-labels-x" x="219.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 219.282 155.000)" fill="rgb(0,0,0)" > 2019-12-14</text>
+                            <text class="axis-labels-x" x="259.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 259.282 155.000)" fill="rgb(0,0,0)" > 2020-02-12</text>
+                            <text class="axis-labels-x" x="299.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 299.282 155.000)" fill="rgb(0,0,0)" > 2020-04-12</text>
+                            <text class="axis-labels-x" x="339.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 339.282 155.000)" fill="rgb(0,0,0)" > 2020-06-11</text>
+                            <text class="axis-labels-x" x="379.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 379.282 155.000)" fill="rgb(0,0,0)" > 2020-08-10</text>
+                            <text class="axis-labels-x" x="419.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 419.282 155.000)" fill="rgb(0,0,0)" > 2020-10-09</text>
+                            <text class="axis-labels-x" x="459.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 459.282 155.000)" fill="rgb(0,0,0)" > 2020-12-08</text>
+                            <text class="axis-labels-x" x="499.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 499.282 155.000)" fill="rgb(0,0,0)" > 2021-02-06</text>
+                            <text class="axis-labels-x" x="539.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 539.282 155.000)" fill="rgb(0,0,0)" > 2021-04-07</text>
+                            <text class="axis-labels-x" x="579.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 579.282 155.000)" fill="rgb(0,0,0)" > 2021-06-06</text>
+                            <line class="axis-ticks-x" x1="99.282" y1="145.000" x2="99.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="139.282" y1="145.000" x2="139.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="179.282" y1="145.000" x2="179.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="219.282" y1="145.000" x2="219.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="259.282" y1="145.000" x2="259.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="299.282" y1="145.000" x2="299.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="339.282" y1="145.000" x2="339.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="379.282" y1="145.000" x2="379.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="419.282" y1="145.000" x2="419.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="459.282" y1="145.000" x2="459.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="499.282" y1="145.000" x2="499.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="539.282" y1="145.000" x2="539.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="579.282" y1="145.000" x2="579.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="vertical-date-lines" x1="99.282" y1="145.000" x2="99.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-06-17');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="139.282" y1="145.000" x2="139.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-08-16');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="179.282" y1="145.000" x2="179.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-10-15');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="219.282" y1="145.000" x2="219.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-12-14');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="259.282" y1="145.000" x2="259.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-02-12');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="299.282" y1="145.000" x2="299.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-04-12');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="339.282" y1="145.000" x2="339.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-06-11');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="379.282" y1="145.000" x2="379.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-08-10');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="419.282" y1="145.000" x2="419.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-10-09');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="459.282" y1="145.000" x2="459.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-12-08');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="499.282" y1="145.000" x2="499.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2021-02-06');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="539.282" y1="145.000" x2="539.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2021-04-07');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="579.282" y1="145.000" x2="579.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2021-06-06');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <g><use xlink:href="#pch29" transform="translate(235.949, 135) rotate(315)"></use></g>
+                        </g>
+            
+                        <g id="helpplot2">
+            
+                            <!-- Clear the whole plotting area -->
+                            <rect class="plotting-area-background" x="0.000" y="0.000" width="593.282" height="196.538" stroke="none" fill="rgb(255,255,255)" ></rect>
+                            
+                            <!-- The alternating band -->
+                            <rect class="alternating-bands-1" x="99.282" y="30.000" width="494.000" height="110.000" fill="rgb(255,255,255)" ></rect>
+                            <!-- The Follow-Up Window (FUW) -->
+                            <rect class="fuw" x="99.282" y="50.000" width="487.333" height="90.000" stroke="rgb(0,255,0)" stroke-width="2" stroke-dasharray="3,3" fill="rgb(255,255,255)" fill-opacity="0" > <title>Follow-Up Window (FUW)</title></rect>
+                            <!-- The Observation Window (OW) -->
+                            <rect class="ow" x="343.282" y="50.000" width="243.333" height="90.000" stroke="none" fill="rgb(255,255,0)" fill-opacity="0.3" > <title>Observation Window (OW)</title></rect>
+                            <!-- The y-axis labels -->
+                            <text class="axis-labels-y" x="89.282" y="80.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 89.282 80.000)" fill="rgb(0,0,0)" > [DRUG NAME]</text>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(235.949 135.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(273.282 135.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="235.949" y1="135.000" x2="273.282" y2="135.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="273.282,135.000 273.282,135.000 273.282,135.000 273.282,125.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(273.282 125.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(273.282 125.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="273.282" y1="125.000" x2="273.282" y2="125.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="273.282,125.000 310.615,125.000 310.615,125.000 310.615,115.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(310.615 115.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(347.949 115.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="310.615" y1="115.000" x2="347.949" y2="115.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="347.949,115.000 347.949,115.000 347.949,115.000 347.949,105.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(347.949 105.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(366.615 105.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="347.949" y1="105.000" x2="366.615" y2="105.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="366.615,105.000 385.282,105.000 385.282,105.000 385.282,95.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(385.282 95.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(385.282 95.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="385.282" y1="95.000" x2="385.282" y2="95.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="385.282,95.000 422.615,95.000 422.615,95.000 422.615,85.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>2</title><use xlink:href="#pch15" transform="translate(422.615 85.000) scale(1)" stroke="rgb(204,102,119)" fill="rgb(204,102,119)" ></use></g>
+                            <g class="event-end-med-class-Graph1-2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>2</title><use xlink:href="#pch16" transform="translate(459.949 85.000) scale(1)" stroke="rgb(204,102,119)" fill="rgb(204,102,119)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-2" x1="422.615" y1="85.000" x2="459.949" y2="85.000" stroke="rgb(204,102,119)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>2</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-2" points="459.949,85.000 459.949,85.000 459.949,85.000 459.949,75.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-2</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(459.949 75.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(497.282 75.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="459.949" y1="75.000" x2="497.282" y2="75.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="497.282,75.000 497.282,75.000 497.282,75.000 497.282,65.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(497.282 65.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(534.615 65.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="497.282" y1="65.000" x2="534.615" y2="65.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="534.615,65.000 534.615,65.000 534.615,65.000 534.615,55.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(534.615 55.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(553.282 55.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="534.615" y1="55.000" x2="553.282" y2="55.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            
+                            <!-- Partial CMAs as stacked bars: -->
+                            <rect class="partial_cma_stacked_rect_bkg" x="343.282" y="36.000" width="243.333" height="8.000" stroke="rgb(179,179,179)" fill="rgb(255,255,255)" ></rect>
+                            <rect class="partial_cma_stacked_rect_estimate" x="343.282" y="36.000" width="154.000" height="8.000" stroke="rgb(77,77,77)" fill="rgb(229,229,229)" ></rect>
+                            <text class="partial_cma_stacked_text_estimate" x="464.949" y="40.000" font-family="Arial" font-size="8" text-anchor="middle" dominant-baseline="central" fill="rgb(0,0,0)" > 63%</text>
+                            <!-- The bounding box -->
+                            <rect class="bounding-box" x="99.282" y="25.000" width="494.000" height="120.000" stroke="rgb(0,0,0)" stroke-width="1" fill="none" ></rect>
+                            <!-- The main title -->
+                            <text class="main-title" x="346.282" y="15.000" font-family="Arial" font-size="15" text-anchor="middle" dominant-baseline="central" fill="rgb(0,0,0)" > 2 </text>
+                            <!-- The y-axis label -->
+                            <text class="axis-name-y" x="10.000" y="98.269" font-family="Arial" font-size="10" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 10.000 98.269)" fill="rgb(0,0,0)" > Section - Drug Name <title>Y axis: patients, events and (possibly) CMA estimates</title></text>
+                            <!-- The x-axis label -->
+                            <text class="axis-name-x" x="346.282" y="186.538" font-family="Arial" font-size="10" text-anchor="middle" dominant-baseline="central" fill="rgb(0,0,0)" > Date <title>X axis: the events ordered in time (from left to right)</title></text>
+                            <text class="axis-labels-x" x="99.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 99.282 155.000)" fill="rgb(0,0,0)" > 2019-06-17</text>
+                            <text class="axis-labels-x" x="139.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 139.282 155.000)" fill="rgb(0,0,0)" > 2019-08-16</text>
+                            <text class="axis-labels-x" x="179.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 179.282 155.000)" fill="rgb(0,0,0)" > 2019-10-15</text>
+                            <text class="axis-labels-x" x="219.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 219.282 155.000)" fill="rgb(0,0,0)" > 2019-12-14</text>
+                            <text class="axis-labels-x" x="259.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 259.282 155.000)" fill="rgb(0,0,0)" > 2020-02-12</text>
+                            <text class="axis-labels-x" x="299.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 299.282 155.000)" fill="rgb(0,0,0)" > 2020-04-12</text>
+                            <text class="axis-labels-x" x="339.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 339.282 155.000)" fill="rgb(0,0,0)" > 2020-06-11</text>
+                            <text class="axis-labels-x" x="379.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 379.282 155.000)" fill="rgb(0,0,0)" > 2020-08-10</text>
+                            <text class="axis-labels-x" x="419.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 419.282 155.000)" fill="rgb(0,0,0)" > 2020-10-09</text>
+                            <text class="axis-labels-x" x="459.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 459.282 155.000)" fill="rgb(0,0,0)" > 2020-12-08</text>
+                            <text class="axis-labels-x" x="499.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 499.282 155.000)" fill="rgb(0,0,0)" > 2021-02-06</text>
+                            <text class="axis-labels-x" x="539.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 539.282 155.000)" fill="rgb(0,0,0)" > 2021-04-07</text>
+                            <text class="axis-labels-x" x="579.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 579.282 155.000)" fill="rgb(0,0,0)" > 2021-06-06</text>
+                            <line class="axis-ticks-x" x1="99.282" y1="145.000" x2="99.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="139.282" y1="145.000" x2="139.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="179.282" y1="145.000" x2="179.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="219.282" y1="145.000" x2="219.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="259.282" y1="145.000" x2="259.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="299.282" y1="145.000" x2="299.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="339.282" y1="145.000" x2="339.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="379.282" y1="145.000" x2="379.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="419.282" y1="145.000" x2="419.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="459.282" y1="145.000" x2="459.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="499.282" y1="145.000" x2="499.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="539.282" y1="145.000" x2="539.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="579.282" y1="145.000" x2="579.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="vertical-date-lines" x1="99.282" y1="145.000" x2="99.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-06-17');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="139.282" y1="145.000" x2="139.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-08-16');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="179.282" y1="145.000" x2="179.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-10-15');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="219.282" y1="145.000" x2="219.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-12-14');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="259.282" y1="145.000" x2="259.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-02-12');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="299.282" y1="145.000" x2="299.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-04-12');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="339.282" y1="145.000" x2="339.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-06-11');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="379.282" y1="145.000" x2="379.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-08-10');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="419.282" y1="145.000" x2="419.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-10-09');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="459.282" y1="145.000" x2="459.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-12-08');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="499.282" y1="145.000" x2="499.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2021-02-06');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="539.282" y1="145.000" x2="539.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2021-04-07');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="579.282" y1="145.000" x2="579.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2021-06-06');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <g><use xlink:href="#pch29" transform="translate(475, 120) rotate(315)"></use></g>
+                        </g>
+            
+                        <g id="helpplot3">
+            
+                            <!-- Clear the whole plotting area -->
+                            <rect class="plotting-area-background" x="0.000" y="0.000" width="593.282" height="196.538" stroke="none" fill="rgb(255,255,255)" ></rect>
+                            
+                            <!-- The alternating band -->
+                            <rect class="alternating-bands-1" x="99.282" y="30.000" width="494.000" height="110.000" fill="rgb(255,255,255)" ></rect>
+                            <!-- The Follow-Up Window (FUW) -->
+                            <rect class="fuw" x="99.282" y="50.000" width="487.333" height="90.000" stroke="rgb(0,255,0)" stroke-width="2" stroke-dasharray="3,3" fill="rgb(255,255,255)" fill-opacity="0" > <title>Follow-Up Window (FUW)</title></rect>
+                            <!-- The Observation Window (OW) -->
+                            <rect class="ow" x="343.282" y="50.000" width="243.333" height="90.000" stroke="none" fill="rgb(255,255,0)" fill-opacity="0.3" > <title>Observation Window (OW)</title></rect>
+                            <!-- The y-axis labels -->
+                            <text class="axis-labels-y" x="89.282" y="80.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 89.282 80.000)" fill="rgb(0,0,0)" > [DRUG NAME]</text>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(235.949 135.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(273.282 135.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="235.949" y1="135.000" x2="273.282" y2="135.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="273.282,135.000 273.282,135.000 273.282,135.000 273.282,125.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(273.282 125.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(273.282 125.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="273.282" y1="125.000" x2="273.282" y2="125.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="273.282,125.000 310.615,125.000 310.615,125.000 310.615,115.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(310.615 115.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(347.949 115.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="310.615" y1="115.000" x2="347.949" y2="115.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="347.949,115.000 347.949,115.000 347.949,115.000 347.949,105.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(347.949 105.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(366.615 105.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="347.949" y1="105.000" x2="366.615" y2="105.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="366.615,105.000 385.282,105.000 385.282,105.000 385.282,95.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(385.282 95.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(385.282 95.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="385.282" y1="95.000" x2="385.282" y2="95.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="385.282,95.000 422.615,95.000 422.615,95.000 422.615,85.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>2</title><use xlink:href="#pch15" transform="translate(422.615 85.000) scale(1)" stroke="rgb(204,102,119)" fill="rgb(204,102,119)" ></use></g>
+                            <g class="event-end-med-class-Graph1-2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>2</title><use xlink:href="#pch16" transform="translate(459.949 85.000) scale(1)" stroke="rgb(204,102,119)" fill="rgb(204,102,119)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-2" x1="422.615" y1="85.000" x2="459.949" y2="85.000" stroke="rgb(204,102,119)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>2</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-2" points="459.949,85.000 459.949,85.000 459.949,85.000 459.949,75.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-2</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(459.949 75.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(497.282 75.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="459.949" y1="75.000" x2="497.282" y2="75.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="497.282,75.000 497.282,75.000 497.282,75.000 497.282,65.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(497.282 65.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(534.615 65.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="497.282" y1="65.000" x2="534.615" y2="65.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            <polyline class="continuation-line-med-class-Graph1-1" points="534.615,65.000 534.615,65.000 534.615,65.000 534.615,55.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                            <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(534.615 55.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(553.282 55.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                            <line class="event-segment-med-class-Graph1-1" x1="534.615" y1="55.000" x2="553.282" y2="55.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                            
+                            <!-- Partial CMAs as stacked bars: -->
+                            <rect class="partial_cma_stacked_rect_bkg" x="343.282" y="36.000" width="243.333" height="8.000" stroke="rgb(179,179,179)" fill="rgb(255,255,255)" ></rect>
+                            <rect class="partial_cma_stacked_rect_estimate" x="343.282" y="36.000" width="154.000" height="8.000" stroke="rgb(77,77,77)" fill="rgb(229,229,229)" ></rect>
+                            <text class="partial_cma_stacked_text_estimate" x="464.949" y="40.000" font-family="Arial" font-size="8" text-anchor="middle" dominant-baseline="central" fill="rgb(0,0,0)" > 63%</text>
+                            <!-- The bounding box -->
+                            <rect class="bounding-box" x="99.282" y="25.000" width="494.000" height="120.000" stroke="rgb(0,0,0)" stroke-width="1" fill="none" ></rect>
+                            <!-- The main title -->
+                            <text class="main-title" x="346.282" y="15.000" font-family="Arial" font-size="15" text-anchor="middle" dominant-baseline="central" fill="rgb(0,0,0)" > 3 </text>
+                            <!-- The y-axis label -->
+                            <text class="axis-name-y" x="10.000" y="98.269" font-family="Arial" font-size="10" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 10.000 98.269)" fill="rgb(0,0,0)" > Section - Drug Name <title>Y axis: patients, events and (possibly) CMA estimates</title></text>
+                            <!-- The x-axis label -->
+                            <text class="axis-name-x" x="346.282" y="186.538" font-family="Arial" font-size="10" text-anchor="middle" dominant-baseline="central" fill="rgb(0,0,0)" > Date <title>X axis: the events ordered in time (from left to right)</title></text>
+                            <text class="axis-labels-x" x="99.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 99.282 155.000)" fill="rgb(0,0,0)" > 2019-06-17</text>
+                            <text class="axis-labels-x" x="139.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 139.282 155.000)" fill="rgb(0,0,0)" > 2019-08-16</text>
+                            <text class="axis-labels-x" x="179.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 179.282 155.000)" fill="rgb(0,0,0)" > 2019-10-15</text>
+                            <text class="axis-labels-x" x="219.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 219.282 155.000)" fill="rgb(0,0,0)" > 2019-12-14</text>
+                            <text class="axis-labels-x" x="259.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 259.282 155.000)" fill="rgb(0,0,0)" > 2020-02-12</text>
+                            <text class="axis-labels-x" x="299.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 299.282 155.000)" fill="rgb(0,0,0)" > 2020-04-12</text>
+                            <text class="axis-labels-x" x="339.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 339.282 155.000)" fill="rgb(0,0,0)" > 2020-06-11</text>
+                            <text class="axis-labels-x" x="379.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 379.282 155.000)" fill="rgb(0,0,0)" > 2020-08-10</text>
+                            <text class="axis-labels-x" x="419.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 419.282 155.000)" fill="rgb(0,0,0)" > 2020-10-09</text>
+                            <text class="axis-labels-x" x="459.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 459.282 155.000)" fill="rgb(0,0,0)" > 2020-12-08</text>
+                            <text class="axis-labels-x" x="499.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 499.282 155.000)" fill="rgb(0,0,0)" > 2021-02-06</text>
+                            <text class="axis-labels-x" x="539.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 539.282 155.000)" fill="rgb(0,0,0)" > 2021-04-07</text>
+                            <text class="axis-labels-x" x="579.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 579.282 155.000)" fill="rgb(0,0,0)" > 2021-06-06</text>
+                            <line class="axis-ticks-x" x1="99.282" y1="145.000" x2="99.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="139.282" y1="145.000" x2="139.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="179.282" y1="145.000" x2="179.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="219.282" y1="145.000" x2="219.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="259.282" y1="145.000" x2="259.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="299.282" y1="145.000" x2="299.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="339.282" y1="145.000" x2="339.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="379.282" y1="145.000" x2="379.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="419.282" y1="145.000" x2="419.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="459.282" y1="145.000" x2="459.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="499.282" y1="145.000" x2="499.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="539.282" y1="145.000" x2="539.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="axis-ticks-x" x1="579.282" y1="145.000" x2="579.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                            <line class="vertical-date-lines" x1="99.282" y1="145.000" x2="99.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-06-17');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="139.282" y1="145.000" x2="139.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-08-16');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="179.282" y1="145.000" x2="179.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-10-15');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="219.282" y1="145.000" x2="219.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-12-14');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="259.282" y1="145.000" x2="259.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-02-12');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="299.282" y1="145.000" x2="299.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-04-12');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="339.282" y1="145.000" x2="339.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-06-11');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="379.282" y1="145.000" x2="379.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-08-10');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="419.282" y1="145.000" x2="419.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-10-09');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="459.282" y1="145.000" x2="459.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-12-08');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="499.282" y1="145.000" x2="499.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2021-02-06');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="539.282" y1="145.000" x2="539.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2021-04-07');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <line class="vertical-date-lines" x1="579.282" y1="145.000" x2="579.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2021-06-06');" onmouseout="adh_svg.hide_tooltip();"></line>
+                            <g><use xlink:href="#pch29" transform="translate(179.285, 90) rotate(315)"></use></g>
+                        </g>
+            
+                        <g id="helpplot4">
+            
+                          <!-- Clear the whole plotting area -->
+                          <rect class="plotting-area-background" x="0.000" y="0.000" width="593.282" height="196.538" stroke="none" fill="rgb(255,255,255)" ></rect>
+                          
+                          <!-- The alternating band -->
+                          <rect class="alternating-bands-1" x="99.282" y="30.000" width="494.000" height="110.000" fill="rgb(255,255,255)" ></rect>
+                          <!-- The Follow-Up Window (FUW) -->
+                          <rect class="fuw" x="99.282" y="50.000" width="487.333" height="90.000" stroke="rgb(0,255,0)" stroke-width="2" stroke-dasharray="3,3" fill="rgb(255,255,255)" fill-opacity="0" > <title>Follow-Up Window (FUW)</title></rect>
+                          <!-- The Observation Window (OW) -->
+                          <rect class="ow" x="343.282" y="50.000" width="243.333" height="90.000" stroke="none" fill="rgb(255,255,0)" fill-opacity="0.3" > <title>Observation Window (OW)</title></rect>
+                          <!-- The y-axis labels -->
+                          <text class="axis-labels-y" x="89.282" y="80.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 89.282 80.000)" fill="rgb(0,0,0)" > [DRUG NAME]</text>
+                          <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(235.949 135.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(273.282 135.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <line class="event-segment-med-class-Graph1-1" x1="235.949" y1="135.000" x2="273.282" y2="135.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                          <polyline class="continuation-line-med-class-Graph1-1" points="273.282,135.000 273.282,135.000 273.282,135.000 273.282,125.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                          <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(273.282 125.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(273.282 125.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <line class="event-segment-med-class-Graph1-1" x1="273.282" y1="125.000" x2="273.282" y2="125.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                          <polyline class="continuation-line-med-class-Graph1-1" points="273.282,125.000 310.615,125.000 310.615,125.000 310.615,115.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                          <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(310.615 115.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(347.949 115.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <line class="event-segment-med-class-Graph1-1" x1="310.615" y1="115.000" x2="347.949" y2="115.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                          <polyline class="continuation-line-med-class-Graph1-1" points="347.949,115.000 347.949,115.000 347.949,115.000 347.949,105.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                          <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(347.949 105.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(366.615 105.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <line class="event-segment-med-class-Graph1-1" x1="347.949" y1="105.000" x2="366.615" y2="105.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                          <polyline class="continuation-line-med-class-Graph1-1" points="366.615,105.000 385.282,105.000 385.282,105.000 385.282,95.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                          <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(385.282 95.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(385.282 95.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <line class="event-segment-med-class-Graph1-1" x1="385.282" y1="95.000" x2="385.282" y2="95.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                          <polyline class="continuation-line-med-class-Graph1-1" points="385.282,95.000 422.615,95.000 422.615,95.000 422.615,85.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                          <g class="event-start-med-class-Graph1-2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>2</title><use xlink:href="#pch15" transform="translate(422.615 85.000) scale(1)" stroke="rgb(204,102,119)" fill="rgb(204,102,119)" ></use></g>
+                          <g class="event-end-med-class-Graph1-2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>2</title><use xlink:href="#pch16" transform="translate(459.949 85.000) scale(1)" stroke="rgb(204,102,119)" fill="rgb(204,102,119)" ></use></g>
+                          <line class="event-segment-med-class-Graph1-2" x1="422.615" y1="85.000" x2="459.949" y2="85.000" stroke="rgb(204,102,119)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>2</title></line>
+                          <polyline class="continuation-line-med-class-Graph1-2" points="459.949,85.000 459.949,85.000 459.949,85.000 459.949,75.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-2</title></polyline>
+                          <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(459.949 75.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(497.282 75.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <line class="event-segment-med-class-Graph1-1" x1="459.949" y1="75.000" x2="497.282" y2="75.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                          <polyline class="continuation-line-med-class-Graph1-1" points="497.282,75.000 497.282,75.000 497.282,75.000 497.282,65.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                          <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(497.282 65.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(534.615 65.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <line class="event-segment-med-class-Graph1-1" x1="497.282" y1="65.000" x2="534.615" y2="65.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                          <polyline class="continuation-line-med-class-Graph1-1" points="534.615,65.000 534.615,65.000 534.615,65.000 534.615,55.000 " fill="none" stroke="rgb(0,0,0)" stroke-width="1" stroke-dasharray="1,2" > <title>med-class-Graph1-1</title></polyline>
+                          <g class="event-start-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch15" transform="translate(534.615 55.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <g class="event-end-med-class-Graph1-1" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title><use xlink:href="#pch16" transform="translate(553.282 55.000) scale(1)" stroke="rgb(136,204,238)" fill="rgb(136,204,238)" ></use></g>
+                          <line class="event-segment-med-class-Graph1-1" x1="534.615" y1="55.000" x2="553.282" y2="55.000" stroke="rgb(136,204,238)" stroke-width="2" onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"onmousemove="adh_svg.show_tooltip(evt, '[DRUG NAME DRUG STRENGTH]');" onmouseout="adh_svg.hide_tooltip();"> <title>1</title></line>
+                          
+                          <!-- Partial CMAs as stacked bars: -->
+                          <rect class="partial_cma_stacked_rect_bkg" x="343.282" y="36.000" width="243.333" height="8.000" stroke="rgb(179,179,179)" fill="rgb(255,255,255)" ></rect>
+                          <rect class="partial_cma_stacked_rect_estimate" x="343.282" y="36.000" width="154.000" height="8.000" stroke="rgb(77,77,77)" fill="rgb(229,229,229)" ></rect>
+                          <text class="partial_cma_stacked_text_estimate" x="464.949" y="40.000" font-family="Arial" font-size="8" text-anchor="middle" dominant-baseline="central" fill="rgb(0,0,0)" > 63%</text>
+                          <!-- The bounding box -->
+                          <rect class="bounding-box" x="99.282" y="25.000" width="494.000" height="120.000" stroke="rgb(0,0,0)" stroke-width="1" fill="none" ></rect>
+                          <!-- The main title -->
+                          <text class="main-title" x="346.282" y="15.000" font-family="Arial" font-size="15" text-anchor="middle" dominant-baseline="central" fill="rgb(0,0,0)" > 4 </text>
+                          <!-- The y-axis label -->
+                          <text class="axis-name-y" x="10.000" y="98.269" font-family="Arial" font-size="10" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 10.000 98.269)" fill="rgb(0,0,0)" > Section - Drug Name <title>Y axis: patients, events and (possibly) CMA estimates</title></text>
+                          <!-- The x-axis label -->
+                          <text class="axis-name-x" x="346.282" y="186.538" font-family="Arial" font-size="10" text-anchor="middle" dominant-baseline="central" fill="rgb(0,0,0)" > Date <title>X axis: the events ordered in time (from left to right)</title></text>
+                          <text class="axis-labels-x" x="99.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 99.282 155.000)" fill="rgb(0,0,0)" > 2019-06-17</text>
+                          <text class="axis-labels-x" x="139.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 139.282 155.000)" fill="rgb(0,0,0)" > 2019-08-16</text>
+                          <text class="axis-labels-x" x="179.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 179.282 155.000)" fill="rgb(0,0,0)" > 2019-10-15</text>
+                          <text class="axis-labels-x" x="219.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 219.282 155.000)" fill="rgb(0,0,0)" > 2019-12-14</text>
+                          <text class="axis-labels-x" x="259.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 259.282 155.000)" fill="rgb(0,0,0)" > 2020-02-12</text>
+                          <text class="axis-labels-x" x="299.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 299.282 155.000)" fill="rgb(0,0,0)" > 2020-04-12</text>
+                          <text class="axis-labels-x" x="339.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 339.282 155.000)" fill="rgb(0,0,0)" > 2020-06-11</text>
+                          <text class="axis-labels-x" x="379.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 379.282 155.000)" fill="rgb(0,0,0)" > 2020-08-10</text>
+                          <text class="axis-labels-x" x="419.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 419.282 155.000)" fill="rgb(0,0,0)" > 2020-10-09</text>
+                          <text class="axis-labels-x" x="459.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 459.282 155.000)" fill="rgb(0,0,0)" > 2020-12-08</text>
+                          <text class="axis-labels-x" x="499.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 499.282 155.000)" fill="rgb(0,0,0)" > 2021-02-06</text>
+                          <text class="axis-labels-x" x="539.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 539.282 155.000)" fill="rgb(0,0,0)" > 2021-04-07</text>
+                          <text class="axis-labels-x" x="579.282" y="155.000" font-family="Arial" font-size="10" text-anchor="end" dominant-baseline="central" transform="rotate(-30 579.282 155.000)" fill="rgb(0,0,0)" > 2021-06-06</text>
+                          <line class="axis-ticks-x" x1="99.282" y1="145.000" x2="99.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="axis-ticks-x" x1="139.282" y1="145.000" x2="139.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="axis-ticks-x" x1="179.282" y1="145.000" x2="179.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="axis-ticks-x" x1="219.282" y1="145.000" x2="219.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="axis-ticks-x" x1="259.282" y1="145.000" x2="259.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="axis-ticks-x" x1="299.282" y1="145.000" x2="299.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="axis-ticks-x" x1="339.282" y1="145.000" x2="339.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="axis-ticks-x" x1="379.282" y1="145.000" x2="379.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="axis-ticks-x" x1="419.282" y1="145.000" x2="419.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="axis-ticks-x" x1="459.282" y1="145.000" x2="459.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="axis-ticks-x" x1="499.282" y1="145.000" x2="499.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="axis-ticks-x" x1="539.282" y1="145.000" x2="539.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="axis-ticks-x" x1="579.282" y1="145.000" x2="579.282" y2="150.000" stroke="rgb(0,0,0)" stroke-width="1" ></line>
+                          <line class="vertical-date-lines" x1="99.282" y1="145.000" x2="99.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-06-17');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <line class="vertical-date-lines" x1="139.282" y1="145.000" x2="139.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-08-16');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <line class="vertical-date-lines" x1="179.282" y1="145.000" x2="179.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-10-15');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <line class="vertical-date-lines" x1="219.282" y1="145.000" x2="219.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2019-12-14');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <line class="vertical-date-lines" x1="259.282" y1="145.000" x2="259.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-02-12');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <line class="vertical-date-lines" x1="299.282" y1="145.000" x2="299.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-04-12');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <line class="vertical-date-lines" x1="339.282" y1="145.000" x2="339.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-06-11');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <line class="vertical-date-lines" x1="379.282" y1="145.000" x2="379.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-08-10');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <line class="vertical-date-lines" x1="419.282" y1="145.000" x2="419.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-10-09');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <line class="vertical-date-lines" x1="459.282" y1="145.000" x2="459.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2020-12-08');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <line class="vertical-date-lines" x1="499.282" y1="145.000" x2="499.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2021-02-06');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <line class="vertical-date-lines" x1="539.282" y1="145.000" x2="539.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2021-04-07');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <line class="vertical-date-lines" x1="579.282" y1="145.000" x2="579.282" y2="25.000" stroke="rgb(127,127,127)" stroke-width="1" stroke-dasharray="1,2" onmousemove="adh_svg.show_tooltip(evt, '2021-06-06');" onmouseout="adh_svg.hide_tooltip();"></line>
+                          <g><use xlink:href="#pch29" transform="translate(464.949,44.1) rotate(315)"></use></g>
+                      </g>
+            
+                      </defs>
+                        
+                      <g id="SVGSelectedHelp"><use xlink:href="#helpplot1"></use></g>
+                                
+                    </svg>
+                  </div>
+              </div>
+              <div class="tab-pane index2">
+                <div style="padding-left: 5px; margin: 5px;">
+                  <button class="tablink button_graph">Visualisation</button>
+                  <button class="tablink button_data">Data</button>
+                </div>
+                <div class="tabcontent graph index2" style="padding-left: 5px; margin: 5px;">
+                  <button class="show_hide_controls">Show/Hide Image Controls</button>
+                    <div class="svg_controls">
+                    <div style="padding: 5px; margin: 5px;">
+                      <!-- Image size -->
+                      <b>Image size: &nbsp;</b>
+                      <span title="Restore visualisation to its default dimensions">
+                        <button class="button_image_size_default" onclick='adh_svg.set_plot_size( isNaN(adh_svg.default_svg_width) ? adh_svg.default_svg_width : adh_svg.default_svg_width+"px", isNaN(adh_svg.default_svg_height) ?  adh_svg.default_svg_height : adh_svg.default_svg_height+"px")'>default</button>
+                      </span>
+                      <span title="Increase/decrease image dimensions by 25%">
+                        <button class="button_image_size_decrease" onclick='image_change_size(0.75)'>-</button><button class="button_image_size_increase" onclick='image_change_size(1.25)'>+</button>
+                      </span>
+                    </div>
+              
+              
+                    <div style="padding: 5px; margin: 5px;">
+                      <!-- Various font sizes -->
+                      <b>Font size: &nbsp;</b>
+                      <span title="Increase/decrease axis names' font size">
+                        axis names:
+                        <button title="Restore default axis names' font size" class="button_font_size_default_axe_names" onclick='adh_svg.set_font_size_axis_names(adh_svg.default_font_size_axis_names["x"], adh_svg.default_font_size_axis_names["y"])'>default</button>
+                        <button title="Increase axis names' font size" class="button_font_size_decrease_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis names' font size" class="button_font_size_increase_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                      </span>
+                      &nbsp;
+                      <span title="Increase/decrease axis labels' font size">
+                        axis labels:
+                        <button title="Restore default axis labels' font size" class="button_font_size_default_axe_labels" onclick='adh_svg.set_font_size_axis_labels(adh_svg.default_font_size_axis_labels["x"], adh_svg.default_font_size_axis_labels["y"])'>default</button>
+                        <button title="Decrease axis labels' font size" class="button_font_size_decrease_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis labels' font size" class="button_font_size_increase_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                      </span>
+                    </div>
+              
+                    <div style="padding: 5px; margin: 5px; display: none;" class="medication_classes_div">
+                      <!-- Medication classes -->
+                      <b>Medications: &nbsp;</b>
+                      <!-- Initially this list is empty, as it will be (possibly) populated based on the classes in the SVG file -->
+                    </div>
+              
+
+              
+                  </div>
+              
+              
+
+
+                  <div class="svg_image_div index2">
+                    <button class="reset_zoom index2" style="position: absolute; left: 35px; margin: 5px; font-weight: bold; color: #6fdc6f; z-index: 2; height: 40px; width: 40px; font-size: 30px; padding: 0px; line-height: 0px;">&#8635;</button>
+                    <!--img class="adherence_plot" src="PATH-TO-IMAGE"/-->
+                    <!-- The SVG plot place-holder: make sure the line below appears *literally* as such in the HTML template! -->
+                    <object id="adherence_plot" data="PATH-TO-IMAGE" type="image/svg+xml">Please use a modern browser!</object> 
+                  </div>
+                </div>
+            
+                <div class="tabcontent table index2" style="margin: 5px;">
+                  <input type="text" class="datatable_search_input index2" onkeyup="adh_svg.search_data_table()" placeholder="Search all columns..." title="Type in search terms" style="padding-left: 5px; margin: 5px; margin-right: 0px; width: 30%; height: 25px; vertical-align: middle;">
+                  <button class="clear_btn" style="height: 25px; margin: 5px; margin-left: 0px; vertical-align: middle; line-height:11px" onclick="adh_svg.clear_input_box()">&#10006;</button>
+                  <div class="table_wrapper index2">
+                  <!--Table 1 placeholder-->
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane index3">
+                <div style="padding-left: 5px; margin: 5px;">
+                  <button class="tablink button_graph">Visualisation</button>
+                  <button class="tablink button_data">Data</button>
+                </div>
+                <div class="tabcontent graph index3" style="padding-left: 5px; margin: 5px;">
+                  <button class="show_hide_controls">Show/Hide Image Controls</button>
+                  <div class="svg_controls">
+                    <div style="padding: 5px; margin: 5px;">
+                      <!-- Image size -->
+                      <b>Image size: &nbsp;</b>
+                      <span title="Restore visualisation to its default dimensions">
+                        <button class="button_image_size_default" onclick='adh_svg.set_plot_size( isNaN(adh_svg.default_svg_width) ? adh_svg.default_svg_width : adh_svg.default_svg_width+"px", isNaN(adh_svg.default_svg_height) ?  adh_svg.default_svg_height : adh_svg.default_svg_height+"px")'>default</button>
+                      </span>
+                      <span title="Increase/decrease image dimensions by 25%">
+                        <button class="button_image_size_decrease" onclick='image_change_size(0.75)'>-</button><button class="button_image_size_increase" onclick='image_change_size(1.25)'>+</button>
+                      </span>
+                    </div>
+              
+              
+                    <div style="padding: 5px; margin: 5px;">
+                      <!-- Various font sizes -->
+                      <b>Font size: &nbsp;</b>
+                      <span title="Increase/decrease axis names' font size">
+                        axis names:
+                        <button title="Restore default axis names' font size" class="button_font_size_default_axe_names" onclick='adh_svg.set_font_size_axis_names(adh_svg.default_font_size_axis_names["x"], adh_svg.default_font_size_axis_names["y"])'>default</button>
+                        <button title="Decrease axis names' font size" class="button_font_size_decrease_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis names' font size" class="button_font_size_increase_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                      </span>
+                      &nbsp;
+                      <span title="Increase/decrease axis labels' font size">
+                        axis labels:
+                        <button title="Restore default axis labels' font size" class="button_font_size_default_axe_labels" onclick='adh_svg.set_font_size_axis_labels(adh_svg.default_font_size_axis_labels["x"], adh_svg.default_font_size_axis_labels["y"])'>default</button>
+                        <button title="Decrease axis labels' font size" class="button_font_size_decrease_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis labels' font size" class="button_font_size_increase_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                      </span>
+                    </div>
+              
+                    <div style="padding: 5px; margin: 5px; display: none;" class="medication_classes_div">
+                      <!-- Medication classes -->
+                      <b>Medications: &nbsp;</b>
+                      <!-- Initially this list is empty, as it will be (possibly) populated based on the classes in the SVG file -->
+                    </div>   
+        
+                  </div>
+              
+                  <div class="svg_image_div index3">
+                    <button class="reset_zoom index3" style="position: absolute; left: 35px; margin: 5px; font-weight: bold; color: #6fdc6f; z-index: 2; height: 40px; width: 40px; font-size: 30px; padding: 0px; line-height: 0px;">&#8635;</button>
+                    <!--img class="adherence_plot" src="PATH-TO-IMAGE"/-->
+                    <!-- The SVG plot place-holder: make sure the line below appears *literally* as such in the HTML template! -->  <!--Plot Number 4 placeholder-->
+                    <!--Plot Number 2 placeholder-->
+                  </div>
+                </div>
+            
+                <div class="tabcontent table index3" style="margin: 5px;">
+                  <input type="text" class="datatable_search_input index3" onkeyup="adh_svg.search_data_table()" placeholder="Search all columns..." title="Type in search terms" style="padding-left: 5px; margin: 5px; margin-right: 0px; width: 30%; height: 25px; vertical-align: middle;">
+                  <button class="clear_btn" style="height: 25px; margin: 5px; margin-left: 0px; vertical-align: middle; line-height:11px;" onclick="adh_svg.clear_input_box()">&#10006;</button>
+                  <div class="table_wrapper index3">
+                  <!--Table 2 placeholder-->
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane index4">
+                <div style="padding-left: 5px; margin: 5px;">
+                  <button class="tablink button_graph">Visualisation</button>
+                  <button class="tablink button_data">Data</button>
+                </div>
+                <div class="tabcontent graph index4" style="padding-left: 5px; margin: 5px;">
+                  <button class="show_hide_controls">Show/Hide Image Controls</button>
+                  <div class="svg_controls">
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Image size -->
+                    <b>Image size: &nbsp;</b>
+                    <span title="Restore visualisation to its default dimensions">
+                      <button class="button_image_size_default" onclick='adh_svg.set_plot_size( isNaN(adh_svg.default_svg_width) ? adh_svg.default_svg_width : adh_svg.default_svg_width+"px", isNaN(adh_svg.default_svg_height) ?  adh_svg.default_svg_height : adh_svg.default_svg_height+"px")'>default</button>
+                    </span>
+                    <span title="Increase/decrease image dimensions by 25%">
+                      <button class="button_image_size_decrease" onclick='image_change_size(0.75)'>-</button><button class="button_image_size_increase" onclick='image_change_size(1.25)'>+</button>
+                    </span>
+                  </div>
+            
+           
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Various font sizes -->
+                    <b>Font size: &nbsp;</b>
+                    <span title="Increase/decrease axis names' font size">
+                      axis names:
+                      <button title="Restore default axis names' font size" class="button_font_size_default_axe_names" onclick='adh_svg.set_font_size_axis_names(adh_svg.default_font_size_axis_names["x"], adh_svg.default_font_size_axis_names["y"])'>default</button>
+                      <button title="Decrease axis names' font size" class="button_font_size_decrease_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis names' font size" class="button_font_size_increase_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                    &nbsp;
+                    <span title="Increase/decrease axis labels' font size">
+                      axis labels:
+                      <button title="Restore default axis labels' font size" class="button_font_size_default_axe_labels" onclick='adh_svg.set_font_size_axis_labels(adh_svg.default_font_size_axis_labels["x"], adh_svg.default_font_size_axis_labels["y"])'>default</button>
+                      <button title="Decrease axis labels' font size" class="button_font_size_decrease_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis labels' font size" class="button_font_size_increase_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                  </div>
+            
+                  <div style="padding: 5px; margin: 5px; display: none;" class="medication_classes_div">
+                    <!-- Medication classes -->
+                    <b>Medications: &nbsp;</b>
+                    <!-- Initially this list is empty, as it will be (possibly) populated based on the classes in the SVG file -->
+                  </div>
+                           
+                </div>
+                  <div class="svg_image_div index4">
+
+                    <button class="reset_zoom index4"style="position: absolute; left: 35px; margin: 5px; font-weight: bold; color: #6fdc6f; z-index: 2; height: 40px; width: 40px; font-size: 30px; padding: 0px; line-height: 0px;">&#8635;</button>
+                    <!--img class="adherence_plot" src="PATH-TO-IMAGE"/-->
+                    <!-- The SVG plot place-holder: make sure the line below appears *literally* as such in the HTML template! -->
+                    <!--Plot Number 3 placeholder-->
+                  </div>
+                </div>
+            
+                <div class="tabcontent table index4" style="margin: 5px;">
+                  <input type="text" class="datatable_search_input index4" onkeyup="adh_svg.search_data_table()" placeholder="Search all columns..." title="Type in search terms" style="padding-left: 5px; margin: 5px; margin-right: 0px; width: 30%; height: 25px; vertical-align: middle;">
+                  <button class="clear_btn" style="height: 25px; margin: 5px; margin-left: 0px; vertical-align: middle; line-height:11px;" onclick="adh_svg.clear_input_box()">&#10006;</button>
+                  <div class="table_wrapper index4">
+                  <!--Table 3 placeholder-->
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane index5">
+                <div style="padding-left: 5px; margin: 5px;">
+                  <button class="tablink button_graph">Visualisation</button>
+                  <button class="tablink button_data">Data</button>
+                </div>
+                <div class="tabcontent graph index5" style="padding-left: 5px; margin: 5px;">
+                  <button class="show_hide_controls">Show/Hide Image Controls</button>
+                  <div class="svg_controls">
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Image size -->
+                    <b>Image size: &nbsp;</b>
+                    <span title="Restore visualisation to its default dimensions">
+                      <button class="button_image_size_default" onclick='adh_svg.set_plot_size( isNaN(adh_svg.default_svg_width) ? adh_svg.default_svg_width : adh_svg.default_svg_width+"px", isNaN(adh_svg.default_svg_height) ?  adh_svg.default_svg_height : adh_svg.default_svg_height+"px")'>default</button>
+                    </span>
+                    <span title="Increase/decrease image dimensions by 25%">
+                      <button class="button_image_size_decrease" onclick='image_change_size(0.75)'>-</button><button class="button_image_size_increase" onclick='image_change_size(1.25)'>+</button>
+                    </span>
+                  </div>
+            
+            
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Various font sizes -->
+                    <b>Font size: &nbsp;</b>
+                    <span title="Increase/decrease axis names' font size">
+                      axis names:
+                      <button title="Restore default axis names' font size" class="button_font_size_default_axe_names" onclick='adh_svg.set_font_size_axis_names(adh_svg.default_font_size_axis_names["x"], adh_svg.default_font_size_axis_names["y"])'>default</button>
+                      <button title="Decrease axis names' font size" class="button_font_size_decrease_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis names' font size" class="button_font_size_increase_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                    &nbsp;
+                    <span title="Increase/decrease axis labels' font size">
+                      axis labels:
+                      <button title="Restore default axis labels' font size" class="button_font_size_default_axe_labels" onclick='adh_svg.set_font_size_axis_labels(adh_svg.default_font_size_axis_labels["x"], adh_svg.default_font_size_axis_labels["y"])'>default</button>
+                      <button title="Decrease axis labels' font size" class="button_font_size_decrease_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis labels' font size" class="button_font_size_increase_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                  </div>
+            
+                  <div style="padding: 5px; margin: 5px; display: none;" class="medication_classes_div">
+                    <!-- Medication classes -->
+                    <b>Medications: &nbsp;</b>
+                    <!-- Initially this list is empty, as it will be (possibly) populated based on the classes in the SVG file -->
+                  </div>
+                           
+                </div>
+                  <div class="svg_image_div index5">
+                    <button class="reset_zoom index5"style="position: absolute; left: 35px; margin: 5px; font-weight: bold; color: #6fdc6f; z-index: 2; height: 40px; width: 40px; font-size: 30px; padding: 0px; line-height: 0px;">&#8635;</button>
+                    <!--img class="adherence_plot" src="PATH-TO-IMAGE"/-->
+                    <!-- The SVG plot place-holder: make sure the line below appears *literally* as such in the HTML template! -->
+           
+                    <!--Plot Number 4 placeholder-->
+                  </div>
+                </div>
+            
+                <div class="tabcontent table index5" style="margin: 5px;">
+                  <input type="text" class="datatable_search_input index5" onkeyup="adh_svg.search_data_table()" placeholder="Search all columns..." title="Type in search terms" style="padding-left: 5px; margin: 5px; margin-right: 0px; width: 30%; height: 25px; vertical-align: middle;">
+                  <button class="clear_btn" style="height: 25px; margin: 5px; margin-left: 0px; vertical-align: middle; line-height:11px;" onclick="adh_svg.clear_input_box()">&#10006;</button>
+                  <div class="table_wrapper index5">
+                  <!--Table 4 placeholder-->
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane index6">
+                <div style="padding-left: 5px; margin: 5px;">
+                  <button class="tablink button_graph">Visualisation</button>
+                  <button class="tablink button_data">Data</button>
+                </div>
+                <div class="tabcontent graph index6" style="padding-left: 5px; margin: 5px;">
+                  <button class="show_hide_controls">Show/Hide Image Controls</button>
+                  <div class="svg_controls">
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Image size -->
+                    <b>Image size: &nbsp;</b>
+                    <span title="Restore visualisation to its default dimensions">
+                      <button class="button_image_size_default" onclick='adh_svg.set_plot_size( isNaN(adh_svg.default_svg_width) ? adh_svg.default_svg_width : adh_svg.default_svg_width+"px", isNaN(adh_svg.default_svg_height) ?  adh_svg.default_svg_height : adh_svg.default_svg_height+"px")'>default</button>
+                    </span>
+                    <span title="Increase/decrease image dimensions by 25%">
+                      <button class="button_image_size_decrease" onclick='image_change_size(0.75)'>-</button><button class="button_image_size_increase" onclick='image_change_size(1.25)'>+</button>
+                    </span>
+                  </div>
+            
+            
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Various font sizes -->
+                    <b>Font size: &nbsp;</b>
+                    <span title="Increase/decrease axis names' font size">
+                      axis names:
+                      <button title="Restore default axis names' font size" class="button_font_size_default_axe_names" onclick='adh_svg.set_font_size_axis_names(adh_svg.default_font_size_axis_names["x"], adh_svg.default_font_size_axis_names["y"])'>default</button>
+                      <button title="Decrease axis names' font size" class="button_font_size_decrease_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis names' font size" class="button_font_size_increase_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                    &nbsp;
+                    <span title="Increase/decrease axis labels' font size">
+                      axis labels:
+                      <button title="Restore default axis labels' font size" class="button_font_size_default_axe_labels" onclick='adh_svg.set_font_size_axis_labels(adh_svg.default_font_size_axis_labels["x"], adh_svg.default_font_size_axis_labels["y"])'>default</button>
+                      <button title="Decrease axis labels' font size" class="button_font_size_decrease_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis labels' font size" class="button_font_size_increase_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                  </div>
+            
+                  <div style="padding: 5px; margin: 5px; display: none;" class="medication_classes_div">
+                    <!-- Medication classes -->
+                    <b>Medications: &nbsp;</b>
+                    <!-- Initially this list is empty, as it will be (possibly) populated based on the classes in the SVG file -->
+                  </div>
+                           
+                </div>
+                  <div class="svg_image_div index6">
+                    <button class="reset_zoom index6"style="position: absolute; left: 35px; margin: 5px; font-weight: bold; color: #6fdc6f; z-index: 2; height: 40px; width: 40px; font-size: 30px; padding: 0px; line-height: 0px;">&#8635;</button>
+                    <!--img class="adherence_plot" src="PATH-TO-IMAGE"/-->
+                    <!-- The SVG plot place-holder: make sure the line below appears *literally* as such in the HTML template! -->
+                    <!--Plot Number 5 placeholder-->
+                  </div>
+                </div>
+            
+                <div class="tabcontent table index6" style="margin: 5px;">
+                  <input type="text" class="datatable_search_input index6" onkeyup="adh_svg.search_data_table()" placeholder="Search all columns..." title="Type in search terms" style="padding-left: 5px; margin: 5px; margin-right: 0px; width: 30%; height: 25px; vertical-align: middle;">
+                  <button class="clear_btn" style="height: 25px; margin: 5px; margin-left: 0px; vertical-align: middle; line-height:11px;" onclick="adh_svg.clear_input_box()">&#10006;</button>
+                  <div class="table_wrapper index6">
+                  <!--Table 5 placeholder-->
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane index7">
+                <div style="padding-left: 5px; margin: 5px;">
+                  <button class="tablink button_graph">Visualisation</button>
+                  <button class="tablink button_data">Data</button>
+                </div>
+                <div class="tabcontent graph index7" style="padding-left: 5px; margin: 5px;">
+                  <button class="show_hide_controls">Show/Hide Image Controls</button>
+                  <div class="svg_controls">
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Image size -->
+                    <b>Image size: &nbsp;</b>
+                    <span title="Restore visualisation to its default dimensions">
+                      <button class="button_image_size_default" onclick='adh_svg.set_plot_size( isNaN(adh_svg.default_svg_width) ? adh_svg.default_svg_width : adh_svg.default_svg_width+"px", isNaN(adh_svg.default_svg_height) ?  adh_svg.default_svg_height : adh_svg.default_svg_height+"px")'>default</button>
+                    </span>
+                    <span title="Increase/decrease image dimensions by 25%">
+                      <button class="button_image_size_decrease" onclick='image_change_size(0.75)'>-</button><button class="button_image_size_increase" onclick='image_change_size(1.25)'>+</button>
+                    </span>
+                  </div>
+            
+            
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Various font sizes -->
+                    <b>Font size: &nbsp;</b>
+                    <span title="Increase/decrease axis names' font size">
+                      axis names:
+                      <button title="Restore default axis names' font size" class="button_font_size_default_axe_names" onclick='adh_svg.set_font_size_axis_names(adh_svg.default_font_size_axis_names["x"], adh_svg.default_font_size_axis_names["y"])'>default</button>
+                      <button title="Decrease axis names' font size" class="button_font_size_decrease_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis names' font size" class="button_font_size_increase_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                    &nbsp;
+                    <span title="Increase/decrease axis labels' font size">
+                      axis labels:
+                      <button title="Restore default axis labels' font size" class="button_font_size_default_axe_labels" onclick='adh_svg.set_font_size_axis_labels(adh_svg.default_font_size_axis_labels["x"], adh_svg.default_font_size_axis_labels["y"])'>default</button>
+                      <button title="Decrease axis labels' font size" class="button_font_size_decrease_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis labels' font size" class="button_font_size_increase_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                  </div>
+            
+                  <div style="padding: 5px; margin: 5px; display: none;" class="medication_classes_div">
+                    <!-- Medication classes -->
+                    <b>Medications: &nbsp;</b>
+                    <!-- Initially this list is empty, as it will be (possibly) populated based on the classes in the SVG file -->
+                  </div>
+                           
+                </div>
+                  <div class="svg_image_div index7">
+                    <button class="reset_zoom index7"style="position: absolute; left: 35px; margin: 5px; font-weight: bold; color: #6fdc6f; z-index: 2; height: 40px; width: 40px; font-size: 30px; padding: 0px; line-height: 0px;">&#8635;</button>
+                    <!--img class="adherence_plot" src="PATH-TO-IMAGE"/-->
+                    <!-- The SVG plot place-holder: make sure the line below appears *literally* as such in the HTML template! -->
+                    <!--Plot Number 6 placeholder-->
+                  </div>
+                </div>
+            
+                <div class="tabcontent table index7" style="margin: 5px;">
+                  <input type="text" class="datatable_search_input index7" onkeyup="adh_svg.search_data_table()" placeholder="Search all columns..." title="Type in search terms" style="padding-left: 5px; margin: 5px; margin-right: 0px; width: 30%; height: 25px; vertical-align: middle;">
+                  <button class="clear_btn" style="height: 25px; margin: 5px; margin-left: 0px; vertical-align: middle; line-height:11px;" onclick="adh_svg.clear_input_box()">&#10006;</button>
+                  <div class="table_wrapper index7">
+                  <!--Table 6 placeholder-->
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane index8">
+                <div style="padding-left: 5px; margin: 5px;">
+                  <button class="tablink button_graph">Visualisation</button>
+                  <button class="tablink button_data">Data</button>
+                </div>
+                <div class="tabcontent graph index8" style="padding-left: 5px; margin: 5px;">
+                  <button class="show_hide_controls">Show/Hide Image Controls</button>
+                  <div class="svg_controls">
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Image size -->
+                    <b>Image size: &nbsp;</b>
+                    <span title="Restore visualisation to its default dimensions">
+                      <button class="button_image_size_default" onclick='adh_svg.set_plot_size( isNaN(adh_svg.default_svg_width) ? adh_svg.default_svg_width : adh_svg.default_svg_width+"px", isNaN(adh_svg.default_svg_height) ?  adh_svg.default_svg_height : adh_svg.default_svg_height+"px")'>default</button>
+                    </span>
+                    <span title="Increase/decrease image dimensions by 25%">
+                      <button class="button_image_size_decrease" onclick='image_change_size(0.75)'>-</button><button class="button_image_size_increase" onclick='image_change_size(1.25)'>+</button>
+                    </span>
+                  </div>
+            
+            
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Various font sizes -->
+                    <b>Font size: &nbsp;</b>
+                    <span title="Increase/decrease axis names' font size">
+                      axis names:
+                      <button title="Restore default axis names' font size" class="button_font_size_default_axe_names" onclick='adh_svg.set_font_size_axis_names(adh_svg.default_font_size_axis_names["x"], adh_svg.default_font_size_axis_names["y"])'>default</button>
+                      <button title="Decrease axis names' font size" class="button_font_size_decrease_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis names' font size" class="button_font_size_increase_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                    &nbsp;
+                    <span title="Increase/decrease axis labels' font size">
+                      axis labels:
+                      <button title="Restore default axis labels' font size" class="button_font_size_default_axe_labels" onclick='adh_svg.set_font_size_axis_labels(adh_svg.default_font_size_axis_labels["x"], adh_svg.default_font_size_axis_labels["y"])'>default</button>
+                      <button title="Decrease axis labels' font size" class="button_font_size_decrease_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis labels' font size" class="button_font_size_increase_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                  </div>
+            
+                  <div style="padding: 5px; margin: 5px; display: none;" class="medication_classes_div">
+                    <!-- Medication classes -->
+                    <b>Medications: &nbsp;</b>
+                    <!-- Initially this list is empty, as it will be (possibly) populated based on the classes in the SVG file -->
+                  </div>
+                           
+                </div>
+                  <div class="svg_image_div index8">
+                    <button class="reset_zoom index8"style="position: absolute; left: 35px; margin: 5px; font-weight: bold; color: #6fdc6f; z-index: 2; height: 40px; width: 40px; font-size: 30px; padding: 0px; line-height: 0px;">&#8635;</button>
+                    <!--img class="adherence_plot" src="PATH-TO-IMAGE"/-->
+                    <!-- The SVG plot place-holder: make sure the line below appears *literally* as such in the HTML template! -->
+                    <!--Plot Number 7 placeholder-->
+                  </div>
+                </div>
+            
+                <div class="tabcontent table index8" style="margin: 5px;">
+                  <input type="text" class="datatable_search_input index8" onkeyup="adh_svg.search_data_table()" placeholder="Search all columns..." title="Type in search terms" style="padding-left: 5px; margin: 5px; margin-right: 0px; width: 30%; height: 25px; vertical-align: middle;">
+                  <button class="clear_btn" style="height: 25px; margin: 5px; margin-left: 0px; vertical-align: middle; line-height:11px;" onclick="adh_svg.clear_input_box()">&#10006;</button>
+                  <div class="table_wrapper index8">
+                  <!--Table 7 placeholder-->
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane index9">
+                <div style="padding-left: 5px; margin: 5px;">
+                  <button class="tablink button_graph">Visualisation</button>
+                  <button class="tablink button_data">Data</button>
+                </div>
+                <div class="tabcontent graph index9" style="padding-left: 5px; margin: 5px;">
+                  <button class="show_hide_controls">Show/Hide Image Controls</button>
+                  <div class="svg_controls">
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Image size -->
+                    <b>Image size: &nbsp;</b>
+                    <span title="Restore visualisation to its default dimensions">
+                      <button class="button_image_size_default" onclick='adh_svg.set_plot_size( isNaN(adh_svg.default_svg_width) ? adh_svg.default_svg_width : adh_svg.default_svg_width+"px", isNaN(adh_svg.default_svg_height) ?  adh_svg.default_svg_height : adh_svg.default_svg_height+"px")'>default</button>
+                    </span>
+                    <span title="Increase/decrease image dimensions by 25%">
+                      <button class="button_image_size_decrease" onclick='image_change_size(0.75)'>-</button><button class="button_image_size_increase" onclick='image_change_size(1.25)'>+</button>
+                    </span>
+                  </div>
+            
+
+            
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Various font sizes -->
+                    <b>Font size: &nbsp;</b>
+                    <span title="Increase/decrease axis names' font size">
+                      axis names:
+                      <button title="Restore default axis names' font size" class="button_font_size_default_axe_names" onclick='adh_svg.set_font_size_axis_names(adh_svg.default_font_size_axis_names["x"], adh_svg.default_font_size_axis_names["y"])'>default</button>
+                      <button title="Decrease axis names' font size" class="button_font_size_decrease_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis names' font size" class="button_font_size_increase_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                    &nbsp;
+                    <span title="Increase/decrease axis labels' font size">
+                      axis labels:
+                      <button title="Restore default axis labels' font size" class="button_font_size_default_axe_labels" onclick='adh_svg.set_font_size_axis_labels(adh_svg.default_font_size_axis_labels["x"], adh_svg.default_font_size_axis_labels["y"])'>default</button>
+                      <button title="Decrease axis labels' font size" class="button_font_size_decrease_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis labels' font size" class="button_font_size_increase_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                  </div>
+            
+                  <div style="padding: 5px; margin: 5px; display: none;" class="medication_classes_div">
+                    <!-- Medication classes -->
+                    <b>Medications: &nbsp;</b>
+                    <!-- Initially this list is empty, as it will be (possibly) populated based on the classes in the SVG file -->
+                  </div>
+                           
+                </div>
+                  <div class="svg_image_div index9">
+                    <button class="reset_zoom index9"style="position: absolute; left: 35px; margin: 5px; font-weight: bold; color: #6fdc6f; z-index: 2; height: 40px; width: 40px; font-size: 30px; padding: 0px; line-height: 0px;">&#8635;</button>
+                    <!--img class="adherence_plot" src="PATH-TO-IMAGE"/-->
+                    <!-- The SVG plot place-holder: make sure the line below appears *literally* as such in the HTML template! -->
+                    <!--Plot Number 8 placeholder-->
+                  </div>
+                </div>
+            
+                <div class="tabcontent table index9" style="margin: 5px;">
+                  <input type="text" class="datatable_search_input index9" onkeyup="adh_svg.search_data_table()" placeholder="Search all columns..." title="Type in search terms" style="padding-left: 5px; margin: 5px; margin-right: 0px; width: 30%; height: 25px; vertical-align: middle;">
+                  <button class="clear_btn" style="height: 25px; margin: 5px; margin-left: 0px; vertical-align: middle; line-height:11px;" onclick="adh_svg.clear_input_box()">&#10006;</button>
+                  <div class="table_wrapper index9">
+                  <!--Table 8 placeholder-->
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane index10">
+                <div style="padding-left: 5px; margin: 5px;">
+                  <button class="tablink button_graph">Visualisation</button>
+                  <button class="tablink button_data">Data</button>
+                </div>
+                <div class="tabcontent graph index10" style="padding-left: 5px; margin: 5px;">
+                  <button class="show_hide_controls">Show/Hide Image Controls</button>
+                  <div class="svg_controls">
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Image size -->
+                    <b>Image size: &nbsp;</b>
+                    <span title="Restore visualisation to its default dimensions">
+                      <button class="button_image_size_default" onclick='adh_svg.set_plot_size( isNaN(adh_svg.default_svg_width) ? adh_svg.default_svg_width : adh_svg.default_svg_width+"px", isNaN(adh_svg.default_svg_height) ?  adh_svg.default_svg_height : adh_svg.default_svg_height+"px")'>default</button>
+                    </span>
+                    <span title="Increase/decrease image dimensions by 25%">
+                      <button class="button_image_size_decrease" onclick='image_change_size(0.75)'>-</button><button class="button_image_size_increase" onclick='image_change_size(1.25)'>+</button>
+                    </span>
+                  </div>
+            
+
+            
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Various font sizes -->
+                    <b>Font size: &nbsp;</b>
+                    <span title="Increase/decrease axis names' font size">
+                      axis names:
+                      <button title="Restore default axis names' font size" class="button_font_size_default_axe_names" onclick='adh_svg.set_font_size_axis_names(adh_svg.default_font_size_axis_names["x"], adh_svg.default_font_size_axis_names["y"])'>default</button>
+                      <button title="Decrease axis names' font size" class="button_font_size_decrease_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis names' font size" class="button_font_size_increase_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                    &nbsp;
+                    <span title="Increase/decrease axis labels' font size">
+                      axis labels:
+                      <button title="Restore default axis labels' font size" class="button_font_size_default_axe_labels" onclick='adh_svg.set_font_size_axis_labels(adh_svg.default_font_size_axis_labels["x"], adh_svg.default_font_size_axis_labels["y"])'>default</button>
+                      <button title="Decrease axis labels' font size" class="button_font_size_decrease_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis labels' font size" class="button_font_size_increase_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                  </div>
+            
+                  <div style="padding: 5px; margin: 5px; display: none;" class="medication_classes_div">
+                    <!-- Medication classes -->
+                    <b>Medications: &nbsp;</b>
+                    <!-- Initially this list is empty, as it will be (possibly) populated based on the classes in the SVG file -->
+                  </div>
+                           
+                </div>
+                  <div class="svg_image_div index10">
+                    <button class="reset_zoom index10"style="position: absolute; left: 35px; margin: 5px; font-weight: bold; color: #6fdc6f; z-index: 2; height: 40px; width: 40px; font-size: 30px; padding: 0px; line-height: 0px;">&#8635;</button>
+                    <!--img class="adherence_plot" src="PATH-TO-IMAGE"/-->
+                    <!-- The SVG plot place-holder: make sure the line below appears *literally* as such in the HTML template! -->
+                    <!--Plot Number 9 placeholder-->
+                  </div>
+                </div>
+            
+                <div class="tabcontent table index10" style="margin: 5px;">
+                  <input type="text" class="datatable_search_input index10" onkeyup="adh_svg.search_data_table()" placeholder="Search all columns..." title="Type in search terms" style="padding-left: 5px; margin: 5px; margin-right: 0px; width: 30%; height: 25px; vertical-align: middle;">
+                  <button class="clear_btn" style="height: 25px; margin: 5px; margin-left: 0px; vertical-align: middle; line-height:11px;" onclick="adh_svg.clear_input_box()">&#10006;</button>
+                  <div class="table_wrapper index10">
+                  <!--Table 9 placeholder-->
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane index11">
+                <div style="padding-left: 5px; margin: 5px;">
+                  <button class="tablink button_graph">Visualisation</button>
+                  <button class="tablink button_data">Data</button>
+                </div>
+                <div class="tabcontent graph index11" style="padding-left: 5px; margin: 5px;">
+                  <button class="show_hide_controls">Show/Hide Image Controls</button>
+                  <div class="svg_controls">
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Image size -->
+                    <b>Image size: &nbsp;</b>
+                    <span title="Restore visualisation to its default dimensions">
+                      <button class="button_image_size_default" onclick='adh_svg.set_plot_size( isNaN(adh_svg.default_svg_width) ? adh_svg.default_svg_width : adh_svg.default_svg_width+"px", isNaN(adh_svg.default_svg_height) ?  adh_svg.default_svg_height : adh_svg.default_svg_height+"px")'>default</button>
+                    </span>
+                    <span title="Increase/decrease image dimensions by 25%">
+                      <button class="button_image_size_decrease" onclick='image_change_size(0.75)'>-</button><button class="button_image_size_increase" onclick='image_change_size(1.25)'>+</button>
+                    </span>
+                  </div>
+            
+            
+                  <div style="padding: 5px; margin: 5px;">
+                    <!-- Various font sizes -->
+                    <b>Font size: &nbsp;</b>
+                    <span title="Increase/decrease axis names' font size">
+                      axis names:
+                      <button title="Restore default axis names' font size" class="button_font_size_default_axe_names" onclick='adh_svg.set_font_size_axis_names(adh_svg.default_font_size_axis_names["x"], adh_svg.default_font_size_axis_names["y"])'>default</button>
+                      <button title="Decrease axis names' font size" class="button_font_size_decrease_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis names' font size" class="button_font_size_increase_axe_names" onclick='x=adh_svg.get_font_size_axis_names(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_names((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                    &nbsp;
+                    <span title="Increase/decrease axis labels' font size">
+                      axis labels:
+                      <button title="Restore default axis labels' font size" class="button_font_size_default_axe_labels" onclick='adh_svg.set_font_size_axis_labels(adh_svg.default_font_size_axis_labels["x"], adh_svg.default_font_size_axis_labels["y"])'>default</button>
+                      <button title="Decrease axis labels' font size" class="button_font_size_decrease_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]-1).toString(10) + "px", (x["y"]-1).toString(10) + "px")'>-</button><button title="Increase axis labels' font size" class="button_font_size_increase_axe_labels" onclick='x=adh_svg.get_font_size_axis_labels(); x["x"]=parseInt(x["x"],10); x["y"]=parseInt(x["y"],10); if(x["x"] >= 2 && x["y"] >= 2) adh_svg.set_font_size_axis_labels((x["x"]+1).toString(10) + "px", (x["y"]+1).toString(10) + "px")'>+</button>
+                    </span>
+                  </div>
+            
+                  <div style="padding: 5px; margin: 5px; display: none;" class="medication_classes_div">
+                    <!-- Medication classes -->
+                    <b>Medications: &nbsp;</b>
+                    <!-- Initially this list is empty, as it will be (possibly) populated based on the classes in the SVG file -->
+                  </div>
+                           
+                </div>
+                  <div class="svg_image_div index11">
+                    <button class="reset_zoom index11"style="position: absolute; left: 35px; margin: 5px; font-weight: bold; color: #6fdc6f; z-index: 2; height: 40px; width: 40px; font-size: 30px; padding: 0px; line-height: 0px;">&#8635;</button>
+                    <!--img class="adherence_plot" src="PATH-TO-IMAGE"/-->
+                    <!-- The SVG plot place-holder: make sure the line below appears *literally* as such in the HTML template! -->
+                    <!--Plot Number 10 placeholder-->
+                  </div>
+                </div>
+            
+                <div class="tabcontent table index11" style="margin: 5px;">
+                  <input type="text" class="datatable_search_input index11" onkeyup="adh_svg.search_data_table()" placeholder="Search all columns..." title="Type in search terms" style="padding-left: 5px; margin: 5px; margin-right: 0px; width: 30%; height: 25px; vertical-align: middle;">
+                  <button class="clear_btn" style="height: 25px; margin: 5px; margin-left: 0px; vertical-align: middle; line-height:11px;" onclick="adh_svg.clear_input_box()">&#10006;</button>
+                  <div class="table_wrapper index11">
+                  <!--Table 10 placeholder-->
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <br>
+  </body>
+</html>

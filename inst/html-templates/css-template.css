@@ -1,0 +1,238 @@
+/* The CSS associated with the SVG */
+
+*{
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+/* margin: 25px; */
+background-color: rgb(240,240,240);
+font-family: arial, sans-serif;
+font-size: 14px;
+}
+
+p {
+color: red;
+}
+
+table {
+  margin: 5px;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  border: #75a0e6;
+  border-width: 3px;
+  border-style: solid;
+  font-size: 16px;
+  white-space: nowrap;
+}
+  
+thead tr {
+    border: #75a0e6;
+    border-width: 3px;
+    border-style: solid;
+    background-color: #aba3a2;
+} 
+
+td {
+  padding: 5px;
+  border: #000000;
+  border-width: 0 0 1px 1px;
+  border-style: solid;
+}
+
+th + th {
+  padding: 5px;
+  border: #000000;
+  border-width: 0 0 0 1px;
+  border-style: solid;
+}
+
+.table_wrapper {
+  overflow: scroll;
+  height: -moz-calc(100% - 170px);
+  height: calc(100% - 170px);
+}
+
+/*tr td:first-child {
+  padding: 5px;
+  border: #000000;
+  border-width: 0 0 1px 1px;
+  border-style: solid;
+}*/
+
+.show_hide_controls {
+margin-top: 5px;
+margin-bottom: 5px; 
+}
+
+.svg_controls {
+display: none;
+}
+
+.svg_controls.active {
+display: block;
+float: top;
+/*height: 20%;*/
+overflow: auto;
+}
+
+.svg_image_div {
+/*height: 75%;*/
+height: -moz-calc(100% - 170px);
+height: calc(100% - 170px);
+overflow: scroll;
+position: relative;
+}
+
+#tooltip {
+background: cornsilk;
+border: 1px solid black;
+border-radius: 5px;
+padding: 5px;
+}
+
+.tabcontent.graph {
+  display: none;
+  border: solid rgb(117, 160, 230);
+} 
+  
+.tabcontent.table {
+  display: none;
+  border: solid rgb(117, 160, 230);
+} 
+
+.clear_btn {
+color: red;
+}
+
+.tablink.button_graph.active,  .tablink.button_data.active {
+  background-color: #d3368a;
+  color: rgb(255,255,255);
+}
+
+.zoomBox {
+fill: none;
+stroke: #000000;
+stroke-width: 2;
+} 
+
+svg {
+cursor: crosshair;
+}
+
+.infobox {
+background: #99ffd6;
+border: 1px solid #00b36b;
+border-radius: 5px;
+padding: 5px;
+white-space: pre-wrap;
+}
+
+button {
+  padding: 5px;
+  border-radius: 10px;
+  border-width: 2px;
+  border-color: #cacbcf;
+  border-style: solid;
+}
+
+button:hover {
+  background-color: #fa6bb8;
+  color: rgb(255,255,255);
+}
+
+button:active {
+  background-color: #fa3ea3;
+  color: rgb(255,255,255);
+}
+
+.arrow {
+stroke-width: 1px;
+stroke-dasharray: solid;
+stroke: #00b36b;
+fill: #00b36b; /* #99ffd6; */
+}
+
+.page_header img {
+  float: left;
+}
+
+.wrapper .sidebar{
+  background: #3c8dbc;
+  top: 0; 
+  left: 0;
+  width: 300px;
+  height: 100%;
+  padding-top: 15px;
+  position: fixed;
+}
+
+.wrapper .sidebar h3{
+  color: #ffffff;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.wrapper .sidebar img{
+  display: block;
+  margin: auto;
+}
+
+.wrapper .sidebar ul li a{
+  display: block;
+  border-bottom: 1px solid #0551BD;
+  color: #ffffff;
+  padding: 15px 15px;
+  font-size: 15px;
+  box-sizing: border-box;
+  margin: 0px;
+  text-decoration: none;
+}
+
+.wrapper .sidebar ul li a:hover,
+.wrapper .sidebar ul li a.active{
+  color: #3c8dbc;
+  background: #ffffff;
+  border-right: 2px solid #0551BD;
+}
+
+.wrapper .section{
+  width: -moz-calc(100% - 300px);
+  width: calc(100% - 300px);
+  margin-left: 300px;  
+  top: 0;
+  left: 0;
+  /* position: fixed; */
+}
+
+.wrapper .section .top_bar{
+  background-color: #d3368a;
+  height: 10px; /* previously 60px */
+  align-items: center;
+  display: flex;
+  padding: 0 30px;
+}
+
+.wrapper .section .top_bar .menu_toggle a:hover{
+  color: #ffffff;
+}
+
+body.active .wrapper .sidebar{
+  left: -300px;
+}
+
+body.active .wrapper .section{
+  margin-left: 0px;
+  width: 100%;
+}
+
+.tab-pane{
+  display: none;
+}
+
+.tab-pane.active{
+  display: block;
+}
