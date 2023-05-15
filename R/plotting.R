@@ -1220,6 +1220,17 @@ get.plotted.partial.cmas <- function(plot.type=c("baseR", "SVG")[1], suppress.wa
     show.event.intervals <- FALSE
   }
 
+  # Check if nrow(data) == nrow(event.info) basically checking if all dates fall within the followup window as it is not worth effort to change everything to working off event.info/event.info.cma
+  if( (inherits(cma, "CMA_per_episode") || inherits(cma, "CMA_sliding_window")) ) {
+    if (!(nrow(cma$event.info.cma) == nrow(cma$data))) {
+      .report.ewms("Please ensure data is filtered to fall within FUW for this type of plot, otherwise use AdhereRFork.", "error", ".plot.CMAs", "AdhereRSTUMedView", error.as.warning=FALSE);
+    }
+  } else {
+    if (!(nrow(cma$event.info) == nrow(cma$data))) {
+      .report.ewms("Please ensure data is filtered to fall within FUW for this type of plot, otherwise use AdhereRFork.", "error", ".plot.CMAs", "AdhereRSTUMedView", error.as.warning=FALSE);
+    }
+  }
+
   # Throw an error if length(bar.cols) != 4
   if( length(bar.cols) != 4 ) .report.ewms("length of bar.cols must be equal to 4!\n", "error", ".plot.CMAs", "AdhereRSTUMedView", error.as.warning=FALSE);
 
