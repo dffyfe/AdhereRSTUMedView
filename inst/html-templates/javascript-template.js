@@ -562,7 +562,7 @@ var adh_svg = { // begin namespace
 
     var interval_check = document.querySelector('.tabcontent.graph.index' + GraphIndex + ' .button_toggle_event_intervals');
     var interval_show = show;
-    if ( show && interval_check.checked === false ) interval_show = false;
+    //if ( show && interval_check.checked === false ) interval_show = false;
 
     adh_svg.show_svg_element(x_start, show);
     adh_svg.show_svg_element(x_end, show);
