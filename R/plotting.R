@@ -62,10 +62,10 @@
 
 ## SVG special functions and constants ####
 
-.SVG.number <- function(n, prec=3)
+.SVG.number <- function(n)
 {
   # if( is.numeric(n) ) as.character(round(n,prec)) else n;
-  if( is.numeric(n) ) sprintf("%.3f",n) else n;
+  if( is.numeric(n) ) sprintf("%.4f",n) else n;
 }
 
 # Replace special characters with XML/HTML entities
