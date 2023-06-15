@@ -29,7 +29,7 @@ plot_summary.CMA_per_episode(
   title = c(aligned = "Event patterns (all patients aligned)", notaligned =
     "Event patterns"),
   col.cats = rainbow,
-  bar.cols = c("#403e3e", "#ada8a8", "#42964d", "#ed940e"),
+  bar.cols = c("#403e3e", "#0011ff", "#4ebf5c", "#ed940e"),
   unspecified.category.label = "drug",
   medication.groups.to.plot = NULL,
   medication.groups.separator.show = TRUE,
@@ -145,7 +145,7 @@ plot_summary.CMA_sliding_window(
   title = c(aligned = "Event patterns (all patients aligned)", notaligned =
     "Event patterns"),
   col.cats = rainbow,
-  bar.cols = c("#403e3e", "#ada8a8", "#42964d", "#ed940e"),
+  bar.cols = c("#403e3e", "#0011ff", "#4ebf5c", "#ed940e"),
   unspecified.category.label = "drug",
   medication.groups.to.plot = NULL,
   medication.groups.separator.show = TRUE,
@@ -267,7 +267,7 @@ drawn (or 0 for no grid).}
 \item{show.legend}{\emph{Logical}, should the legend be drawn?}
 
 \item{legend.x}{The position of the legend on the x axis; can be "left",
-"right" (default), or a \emph{numeric} value.}
+"right" (default), "centre", "farright" or a \emph{numeric} value.}
 
 \item{legend.y}{The position of the legend on the y axis; can be "bottom"
 (default), "top", or a \emph{numeric} value.}

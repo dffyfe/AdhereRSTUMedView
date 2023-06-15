@@ -917,7 +917,7 @@ print.CMA0 <- function(x,                                                  # the
 #' drawn (or 0 for no grid).
 #' @param show.legend \emph{Logical}, should the legend be drawn?
 #' @param legend.x The position of the legend on the x axis; can be "left",
-#' "right" (default), or a \emph{numeric} value.
+#' "right" (default), "centre", "farright" or a \emph{numeric} value.
 #' @param legend.y The position of the legend on the y axis; can be "bottom"
 #' (default), "top", or a \emph{numeric} value.
 #' @param legend.bkg.opacity A \emph{number} between 0.0 and 1.0 specifying the
@@ -1071,7 +1071,7 @@ plot_summary.CMA0 <- function(x,                                     # the CMA0 
                       ylab=c("withoutCMA"="patient", "withCMA"="patient (& CMA)"), # Vector of y labels to show without and with CMA estimates, or a single value for both, or NULL ofr nonthing
                       title=c("aligned"="Event patterns (all patients aligned)", "notaligned"="Event patterns"), # Vector of titles to show for and without alignment, or a single value for both, or NULL for nonthing
                       col.cats=rainbow,                      # single color or a function mapping the categories to colors
-                      bar.cols = c('#403e3e', '#ada8a8', '#42964d', '#ed940e'), # vector of 4 colours used for bar plots
+                      bar.cols = c("#403e3e", "#0011ff", "#4ebf5c", "#ed940e"), # vector of 4 colours used for bar plots
                       unspecified.category.label="drug",     # the label of the unspecified category of medication
                       medication.groups.to.plot=NULL,        # the names of the medication groups to plot (by default, all)
                       medication.groups.separator.show=TRUE, medication.groups.separator.lty="solid", medication.groups.separator.lwd=2, medication.groups.separator.color="blue", # group medication events by patient?
@@ -3337,7 +3337,7 @@ compute.treatment.episodes <- function( data, # this is a per-event data.frame w
                            ylab=c("withoutCMA"="patient", "withCMA"="patient (& CMA)"), # Vector of y labels to show without and with CMA estimates, or a single value for both, or NULL ofr nonthing
                            title=c("aligned"="Event patterns (all patients aligned)", "notaligned"="Event patterns"), # Vector of titles to show for and without alignment, or a single value for both, or NULL for nothing
                            col.cats=rainbow,                      # single color or a function mapping the categories to colors
-                           bar.cols = c('#403e3e', '#ada8a8', '#42964d', '#ed940e'), # vector of 4 colours used for bar plots
+                           bar.cols = c("#403e3e", "#0011ff", "#4ebf5c", "#ed940e"), # vector of 4 colours used for bar plots
                            unspecified.category.label="drug",     # the label of the unspecified category of medication
                            medication.groups.to.plot=NULL,        # the names of the medication groups to plot (by default, all)
                            medication.groups.separator.show=TRUE, medication.groups.separator.lty="solid", medication.groups.separator.lwd=2, medication.groups.separator.color="blue", # group medication events by patient?
@@ -3962,7 +3962,7 @@ print.CMA1 <- function(...) print.CMA0(...)
 #' drawn (or 0 for no grid).
 #' @param show.legend \emph{Logical}, should the legend be drawn?
 #' @param legend.x The position of the legend on the x axis; can be "left",
-#' "right" (default), or a \emph{numeric} value.
+#' "right" (default), "centre", "farright" or a \emph{numeric} value.
 #' @param legend.y The position of the legend on the y axis; can be "bottom"
 #' (default), "top", or a \emph{numeric} value.
 #' @param legend.bkg.opacity A \emph{number} between 0.0 and 1.0 specifying the
@@ -4120,7 +4120,7 @@ plot_summary.CMA1 <- function(x,                                     # the CMA1 
                       cex.title=1.5, cex=1.0, cex.axis=0.75, cex.lab=1.0,   # various graphical params
                       show.cma=TRUE,                         # show the CMA type
                       col.cats=rainbow,                      # single color or a function mapping the categories to colors
-                      bar.cols = c('#403e3e', '#ada8a8', '#42964d', '#ed940e'), # vector of 4 colours used for bar plots
+                      bar.cols = c("#403e3e", "#0011ff", "#4ebf5c", "#ed940e"), # vector of 4 colours used for bar plots
                       unspecified.category.label="drug",     # the label of the unspecified category of medication
                       medication.groups.to.plot=NULL,        # the names of the medication groups to plot (by default, all)
                       medication.groups.separator.show=TRUE, medication.groups.separator.lty="solid", medication.groups.separator.lwd=2, medication.groups.separator.color="blue", # group medication events by patient?
@@ -9419,7 +9419,7 @@ print.CMA_per_episode <- function(x,                                     # the C
 #' drawn (or 0 for no grid).
 #' @param show.legend \emph{Logical}, should the legend be drawn?
 #' @param legend.x The position of the legend on the x axis; can be "left",
-#' "right" (default), or a \emph{numeric} value.
+#' "right" (default), "centre", "farright" or a \emph{numeric} value.
 #' @param legend.y The position of the legend on the y axis; can be "bottom"
 #' (default), "top", or a \emph{numeric} value.
 #' @param legend.bkg.opacity A \emph{number} between 0.0 and 1.0 specifying the
@@ -9637,7 +9637,7 @@ plot_summary.CMA_per_episode <- function(x,                                     
                                  ylab=c("withoutCMA"="patient", "withCMA"="patient (& CMA)"), # Vector of y labels to show without and with CMA estimates, or a single value for both, or NULL ofr nonthing
                                  title=c("aligned"="Event patterns (all patients aligned)", "notaligned"="Event patterns"), # Vector of titles to show for and without alignment, or a single value for both, or NULL for nonthing
                                  col.cats=rainbow,                      # single color or a function mapping the categories to colors
-                                 bar.cols = c('#403e3e', '#ada8a8', '#42964d', '#ed940e'), # vector of 4 colours used for bar plots
+                                 bar.cols = c("#403e3e", "#0011ff", "#4ebf5c", "#ed940e"), # vector of 4 colours used for bar plots
                                  unspecified.category.label="drug",     # the label of the unspecified category of medication
                                  medication.groups.to.plot=NULL,        # the names of the medication groups to plot (by default, all)
                                  medication.groups.separator.show=TRUE, medication.groups.separator.lty="solid", medication.groups.separator.lwd=2, medication.groups.separator.color="blue", # group medication events by patient?
