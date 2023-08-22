@@ -209,7 +209,7 @@ fill: #00b36b; /* #99ffd6; */
 }
 
 .wrapper .section .top_bar{
-  background-color: #A43B63; /* new colours */
+  background-color: #A43B63; 
   height: 10px; /* previously 60px */
   align-items: center;
   display: flex;
