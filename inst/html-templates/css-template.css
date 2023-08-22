@@ -108,7 +108,7 @@ color: red;
 }
 
 .tablink.button_graph.active,  .tablink.button_data.active {
-  background-color: #d3368a;
+  background-color: #A43B63;
   color: rgb(255,255,255);
 }
 
@@ -139,12 +139,12 @@ button {
 }
 
 button:hover {
-  background-color: #fa6bb8;
+  background-color: #EC8EB2;
   color: rgb(255,255,255);
 }
 
 button:active {
-  background-color: #fa3ea3;
+  background-color: #EA187F;
   color: rgb(255,255,255);
 }
 
@@ -209,7 +209,7 @@ fill: #00b36b; /* #99ffd6; */
 }
 
 .wrapper .section .top_bar{
-  background-color: #d3368a;
+  background-color: #A43B63;
   height: 10px; /* previously 60px */
   align-items: center;
   display: flex;
