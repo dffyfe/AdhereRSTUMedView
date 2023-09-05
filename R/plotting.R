@@ -1021,7 +1021,7 @@ get.plotted.partial.cmas <- function(plot.type=c("baseR", "SVG")[1], suppress.wa
                        ylab=c("withoutCMA"="patient", "withCMA"="patient (& CMA)"), # Vector of y labels to show without and with CMA estimates, or a single value for both, or NULL for nothing
                        title=c("aligned"="Event patterns (all patients aligned)", "notaligned"="Event patterns"), # Vector of titles to show for and without alignment, or a single value for both, or NULL for nothing
                        col.cats=rainbow,                      # single color or a function mapping the categories to colors
-                       bar.cols = c("#403e3e", "#0011ff", "#4ebf5c", "#ed940e"), # vector of 4 colours used for bar plots
+                       bar.cols = c("#403e3e", "#0011ff", "#4ebf5c", "#FDB623"), # vector of 4 colours used for bar plots, orange previously #ed940e
                        unspecified.category.label="drug",     # the label of the unspecified category of medication
                        medication.groups.to.plot=NULL,        # the names of the medication groups to plot (by default, all)
                        medication.groups.separator.show=TRUE, medication.groups.separator.lty="solid", medication.groups.separator.lwd=2, medication.groups.separator.color="blue", # group medication events by patient?
