@@ -1527,19 +1527,19 @@ get.plotted.partial.cmas <- function(plot.type=c("baseR", "SVG")[1], suppress.wa
                   .SVG.rect(x=x.origin + lmx, y=y.origin + lmy+lh-dims.chr.legend/2, width=3*dims.chr.legend, height=1*dims.chr.legend,
                             stroke="black", fill=bar.cols[3], fill_opacity=1,
                             class="legend-covered"),
-                  .SVG.text(x=x.origin + lmx + 4*dims.chr.legend, y=y.origin + lmy+lh, text="Period covered by supply",
+                  .SVG.text(x=x.origin + lmx + 4*dims.chr.legend, y=y.origin + lmy+lh, text="Enough medicines",
                             col="black", font_size=dims.chr.legend, h.align="left", v.align="center",
                             class="legend-covered",
                             suppress.warnings=suppress.warnings));
           # Save the info:
           .last.cma.plot.info$SVG$legend$components <<- rbind(.last.cma.plot.info$SVG$legend$components,
-                                                              data.frame("string"="Period covered by supply",
+                                                              data.frame("string"="Enough medicines",
                                                                          "x.start"=x.origin + lmx, "y.start"=y.origin + lmy+lh-dims.chr.legend/2,
                                                                          "x.end"=x.origin + lmx + 3*dims.chr.legend, "y.end"=y.origin + lmy+lh-dims.chr.legend/2+1*dims.chr.legend,
                                                                          "x.string"=lmx + 4*dims.chr.legend, "y.string"=lmy+lh,
                                                                          "font.size"=dims.chr.legend));
         }
-        lh <- lh + lnl*dims.chr.legend; lw <- max(lw, .SVG.string.dims("Period covered by supply", font_size=dims.chr.legend)["width"] + 2*dims.chr.legend);
+        lh <- lh + lnl*dims.chr.legend; lw <- max(lw, .SVG.string.dims("Enough medicines", font_size=dims.chr.legend)["width"] + 2*dims.chr.legend);
         #lh <- lh + lnp*dims.chr.legend.title; # new para
 
         if( do.plot )
@@ -1548,19 +1548,19 @@ get.plotted.partial.cmas <- function(plot.type=c("baseR", "SVG")[1], suppress.wa
                   .SVG.rect(x=x.origin + lmx, y=y.origin + lmy+lh-dims.chr.legend/2, width=3*dims.chr.legend, height=1*dims.chr.legend,
                             stroke="black", fill=bar.cols[4], fill_opacity=1,
                             class="legend-covered"),
-                  .SVG.text(x=x.origin + lmx + 4*dims.chr.legend, y=y.origin + lmy+lh, text="Period not covered by supply",
+                  .SVG.text(x=x.origin + lmx + 4*dims.chr.legend, y=y.origin + lmy+lh, text="Not enough medicines",
                             col="black", font_size=dims.chr.legend, h.align="left", v.align="center",
                             class="legend-covered",
                             suppress.warnings=suppress.warnings));
           # Save the info:
           .last.cma.plot.info$SVG$legend$components <<- rbind(.last.cma.plot.info$SVG$legend$components,
-                                                              data.frame("string"="Period not covered by supply",
+                                                              data.frame("string"="Not enough medicines",
                                                                          "x.start"=x.origin + lmx, "y.start"=y.origin + lmy+lh-dims.chr.legend/2,
                                                                          "x.end"=x.origin + lmx + 3*dims.chr.legend, "y.end"=y.origin + lmy+lh-dims.chr.legend/2+1*dims.chr.legend,
                                                                          "x.string"=lmx + 4*dims.chr.legend, "y.string"=lmy+lh,
                                                                          "font.size"=dims.chr.legend));
         }
-        lh <- lh + lnl*dims.chr.legend; lw <- max(lw, .SVG.string.dims("Period not covered by supply", font_size=dims.chr.legend)["width"] + 2*dims.chr.legend);
+        lh <- lh + lnl*dims.chr.legend; lw <- max(lw, .SVG.string.dims("Not enough medicines", font_size=dims.chr.legend)["width"] + 2*dims.chr.legend);
         #lh <- lh + lnp*dims.chr.legend.title; # new para
         # Event intervals:
         # if( show.event.intervals )
@@ -4197,14 +4197,14 @@ get.plotted.partial.cmas <- function(plot.type=c("baseR", "SVG")[1], suppress.wa
                   # The CMA estimate rect:
                   .SVG.rect(x=.scale.x.to.SVG.plot(corrected.x.start[j]), y=.scale.y.to.SVG.plot(ys[j] + 0.90),
                             xend=.scale.x.to.SVG.plot(corrected.x.start[j] + h[j]), yend=.scale.y.to.SVG.plot(ys[j] + 0.10),
-                            stroke=plot.partial.CMAs.as.stacked.col.border, fill=plot.partial.CMAs.as.stacked.col.bars,
+                            stroke=plot.partial.CMAs.as.stacked.col.border, fill=ifelse(!is.na(cmas$CMA[s.cmas]), ifelse(cmas$CMA[s.cmas] > 1, "#fc0000", plot.partial.CMAs.as.stacked.col.bars), plot.partial.CMAs.as.stacked.col.bars),
                             class="partial_cma_stacked_rect_estimate"),
                   # The numeric estimate:
                   if( force.draw.text || print.CMA && dims.chr.cma <= dims.chr.event )
                   {
                     .SVG.text(.scale.x.to.SVG.plot(corrected.x.text[j]), y=.scale.y.to.SVG.plot(ys[j] + 0.50),
                               text=ppts$text[j], font_size=dims.chr.cma,
-                              col=ifelse(!is.na(cmas$CMA[s.cmas]), ifelse(cmas$CMA[s.cmas] > 1, "#fc0000", plot.partial.CMAs.as.stacked.col.text), plot.partial.CMAs.as.stacked.col.text), #controls whether text should be red for > 100%
+                              col=ifelse(!is.na(cmas$CMA[s.cmas]), ifelse(cmas$CMA[s.cmas] > 1, plot.partial.CMAs.as.stacked.col.bars, plot.partial.CMAs.as.stacked.col.text), plot.partial.CMAs.as.stacked.col.text), #controls whether text should be red/grey for > 100%, red colour was #fc0000
                               other_params=ifelse(!is.na(cmas$CMA[s.cmas]), ifelse(cmas$CMA[s.cmas] > 1, 'font-weight="bold"', ""), ""), #controls whether text should be bold for > 100%
                               h.align="center", v.align="center",
                               class="partial_cma_stacked_text_estimate", suppress.warnings=suppress.warnings)
